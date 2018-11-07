@@ -9,13 +9,19 @@
 
 
     <!-- Latest compiled and minified CSS & JS -->
-    <link rel="stylesheet" media="screen" href="//netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//code.jquery.com/jquery.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
     <script src="/javascripts/chart.js"></script>
     <script src="/javascripts/common.js"></script>
+    <script src="/javascripts/sensor1.js"></script>
 
 </head>
 
@@ -29,53 +35,71 @@
             <!--Bắt đầu phần nav-->
             <%- include ../public/commonhtml/nav.html %>
             <!--Kết thúc phần nav-->
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover" style="margin: 0 auto;margin-bottom: 50px;width: 50%;">
-                    <thead style="background-color: black;color: white">
-                        <tr>
-                            <th style="width: 10%;text-align: center">Stt</th>
-                            <th style="width: 14%; text-align: right;">Nhiệt độ</th>
-                            <th style="width: 14%;text-align: right">Độ ẩm</th>
-                            <th style="width: 31%;text-align: center">Thời gian</th>
-                            <th style="text-align: center">Ngày</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% for(let i =0;i<data.length;i++){ %>
-                        <tr>
-                            <td style="text-align: center">
-                                <%=  data[i].number %>
-                            </td>
-                            <td style="text-align: right">
-                                <%=  data[i].temp  %>°C</td>
-                            <td style="text-align: right">
-                                <%=  data[i].humi  %>%</td>
-                            <td style="text-align: center">
-                                <%=  data[i].time  %>
-                            </td>
-                            <% let a= new Date(data[i].date) 
-                            let day =a.getDate()<10?"0"+a.getDate():a.getDate();
-                            let month = a.getMonth()+1<10?"0"+a.getMonth()+1:a.getMonth()+1;
-                            let year = a.getFullYear();
-                            let date=day+"/"+month+"/"+year;
-                        %>
-                            <td style="width: 10%;text-align: center">
-                                <%= date %>
-                            </td>
-                        </tr>
-                        <% }%>
 
-                    </tbody>
-                </table>
-                <br>
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="table-responsive" style="height: 600px;width: 100%;overflow-y: scroll;margin-bottom: 60px">
+                        <table class="table table-bordered table-hover">
+                            <thead style="background-color: black;color: white">
+                                <tr>
+                                    <th style="width: 10%;text-align: center">Stt</th>
+                                    <th style="width: 18%; text-align: right;">Nhiệt độ</th>
+                                    <th style="width: 18%;text-align: right">Độ ẩm</th>
+                                    <th style="width: 27%;text-align: center">Thời gian</th>
+                                    <th style="text-align: center">Ngày</th>
+                                </tr>
+                            </thead>
+                            <%if(data && data.dataAll){ %>
+                            <tbody>
+                                <% for(let i =0;i<data.dataAll.length;i++){ %>
+                                <tr>
+                                    <td style="text-align: center">
+                                        <%=  data.dataAll[i].number %>
+                                    </td>
+                                    <td style="text-align: right">
+                                        <%=  data.dataAll[i].temp  %>°C</td>
+                                    <td style="text-align: right">
+                                        <%=  data.dataAll[i].humi  %>%</td>
+                                    <td style="text-align: center">
+                                        <%=  data.dataAll[i].time  %>
+                                    </td>
+                                    <% let a= new Date(data.dataAll[i].date) 
+                                            let day =a.getDate()<10?"0"+a.getDate():a.getDate();
+                                            let month = a.getMonth()+1<10?"0"+a.getMonth()+1:a.getMonth()+1;
+                                            let year = a.getFullYear();
+                                            let date=day+"/"+month+"/"+year;
+                                        %>
+                                    <td style="width: 10%;text-align: center">
+                                        <%= date %>
+                                    </td>
+                                </tr>
+                                <% }%>
+                            </tbody>
+                            <% }%>
+                        </table>
+                        <br>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" st>
+                    <form method="POST" action="/sensor1">
+                        <div class='input-group date' style="width: 50%">
+                                <input id='datetimepicker' class="form-control datetimepicker" name="date" style="width: 300px" />
+                                <span class="input-group-addon datetimepicker-addon">
+                                  <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                                <input type="submit" value="Xác Nhận" style="height: 34px;width: 80px;background: blue;color: white;float: left;margin-left: 20px;border: none;border-radius: 5px">
+                              </div>
+                        
+                        </form>
+                </div>
+                <!--Bắt đầu cảm footer-->
+                <%- include ../public/commonhtml/footer.html %>
+                <!--Kết thúc footer-->
+                <%if(data && data.dataDate){ %>
+                <p><%=data.dataDate%></p>
+                <% } %>
             </div>
-
-
-            <!--Bắt đầu cảm footer-->
-            <%- include ../public/commonhtml/footer.html %>
-            <!--Kết thúc footer-->
         </div>
-    </div>
-</body>
+    </body>
 
 </html>

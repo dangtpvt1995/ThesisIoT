@@ -29,7 +29,23 @@ function getAllData(sensorName){
     });
     return defer.promise;
 }
+function findDataByDate(date){
+    var defer = q.defer();
+    let queryUrl= "SELECT * FROM sensor1"+" Where date= "+"'"+date+"'";
+    console.log(queryUrl);
+    conn.query(queryUrl,function(err,result){
+        if(err){
+            defer.reject(err);
+        }
+        else{
+            console.log("Lấy dữ liệu thành công bằng date");
+            defer.resolve(result);
+        }
+    });
+    return defer.promise;
+}
 module.exports = {
     addData:addData,
-    getAllData:getAllData
+    getAllData:getAllData,
+    findDataByDate:findDataByDate
 }
