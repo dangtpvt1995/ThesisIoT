@@ -1,0 +1,135 @@
+/* global */
+
+html,
+body {
+    position: relative;
+    font-family: Arial, Helvetica, sans-serif;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.wrapper {
+    min-height: 100%;
+    position: relative;
+}
+
+div.clear{
+    clear: both;
+}
+/* header */
+
+header {
+    font-weight: bold;
+    font-size: 26px;
+    text-align: center;
+}
+
+hr {
+    border: 2px solid black;
+}
+
+/* thanh nav */
+
+nav.nav-bar {
+    margin: 0 auto;
+    margin-bottom: 30px;
+}
+nav.navCustom ul.custom>li>a:hover{
+    background: gray;
+    color: white;
+   
+}
+
+
+/* thông tin kết nối */
+
+#systemInfor {
+    width: 600px;
+    margin: 0 auto;
+}
+
+table th {
+    width: 70%;
+}
+
+table th.tieude {
+    background: #555555;
+    color: white
+}
+table th.noidungSystem{
+    text-align: right;
+}
+
+/* sensor chung */
+
+article.sensor {
+    text-align: center;
+}
+
+article span.titleSensor {
+    font-size: 16px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+article.sensor label.readSensor {
+    width: 400px;
+    text-align: center;
+}
+
+label {
+    font-size: 16px;
+}
+
+span.valueSensor {
+    padding-left: 5px;
+    padding-right: 5px;
+    height: 16px;
+    width: 60px;
+    border: 1px solid blue;
+}
+
+div.chart-container {
+    width: 600px;
+    height: auto;
+    margin-bottom: 50px;
+}
+span.status_off{
+    padding: 5px;
+    border-radius: 5px;
+    text-transform: none;
+    background-color: red;
+    color: white;
+}
+span.status_on{
+    padding: 5px;
+    border-radius: 5px;
+    text-transform: none;
+    background-color: green;
+    color: white;
+}
+div.chart-container{
+    margin: 0 auto;
+}
+/*footer*/
+
+footer {
+    border-radius: 5px;
+    margin-top: 100px;
+    width: 85%;
+    height: 50px;
+    position: absolute;
+    background-color: black;
+    color: white;
+    position: absolute;
+    bottom: 0;
+}
+span.footer1{
+    text-align: center;
+    padding: 12px;
+    padding-left: 25px;
+    padding-right: 25px;
+    font-size: 16px;
+}

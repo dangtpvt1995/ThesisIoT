@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hệ thống IoT</title>
+
+
+    <!-- Latest compiled and minified CSS & JS -->
+    <link rel="stylesheet" media="screen" href="//netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="/javascripts/chart.js"></script>
+    <script src="/javascripts/index.js"></script>
+    <script src="/javascripts/common.js"></script>
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="container wrapper">
+            <!--Bắt đầu phần header-->
+            <%- include ../public/commonhtml/header.html %>
+            <!--Kết thúc phần header-->
+
+            <!--Bắt đầu phần nav-->
+            <%- include ../public/commonhtml/nav.html %>
+            
+            <!--Kết thúc phần nav-->
+            <!--Bắt đầu systeminfor-->
+            <section id="systemInfor">
+                <table class="table table-bordered table-hover">
+                    <tr>
+                        <th class="tieude">Tình trạng kết nối</th>
+                        <th class="noidungSystem" id="statusConnectSystem">
+                            <%= connected?"Đã kết nối":"Chưa kết nối" %>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th class="tieude">Id của Client</th>
+                        <th class="noidungSystem">
+                            <%=clientID  %>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th class="tieude">Topic đang lắng nghe</th>
+                        <th class="noidungSystem">
+                            <%= topic %>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th class="tieude">Host</th>
+                        <th class="noidungSystem">
+                            <%= server %>
+                        </th>
+                    </tr>
+                </table>
+
+            </section>
+            <!--Kết thúc systeminfor-->
+
+            <!--Bắt đầu cảm biến 1-->
+            <article class="sensor" id="sensor1">
+                <span class="titleSensor">
+                    Cảm biến 1 <span id="statusSensor1" class="status_off">Off</span>
+                </span>
+                <br>
+                <br>
+                <label>Ngày:<span class="dateCurrent"></span></label><br>
+                <label class="readSensor">Nhiệt độ: <span class="valueSensor" id="tempSensor1">NaN</span> °C</label>
+                <label class="readSensor">Độ ẩm: <span class="valueSensor" id="humiSensor1">NaN</span> %</label>
+                <div class="chart-container">
+                    <canvas id="line-chartcanvas1"></canvas>
+                </div>
+            </article>
+            <!--Kết thúc cảm biến 1-->
+            <hr>
+            <!--Bắt đầu cảm biến 2-->
+            <article class="sensor" id="sensor2">
+                <span class="titleSensor">
+                    Cảm biến 2 <span id="statusSensor2" class="status_off">Off</span>
+                </span>
+                <br>
+                <br>
+                <label>Ngày:<span class="dateCurrent"></span></label><br>
+                <label class="readSensor">Nhiệt độ: <span class="valueSensor" id="tempSensor2">NaN</span> °C</label>
+                <label class="readSensor">Độ ẩm: <span class="valueSensor" id="humiSensor2">NaN</span> %</label>
+                <div class="chart-container">
+                    <canvas id="line-chartcanvas2"></canvas>
+                </div>
+            </article>
+            <!--Kết thúc cảm biến 2-->
+            <!--Bắt đầu cảm footer-->
+            <%- include ../public/commonhtml/footer.html %>
+            <!--Kết thúc footer-->
+        </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('li>a').removeClass('active');
+        });
+         
+    </script>
+</body>
+
+</html>

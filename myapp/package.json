@@ -1,0 +1,24 @@
+{
+  "name": "myapp",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "chart.js": "^2.7.3",
+    "config": "^2.0.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "ejs": "~2.5.7",
+    "express": "~4.16.0",
+    "http-errors": "~1.6.2",
+    "is-json": "^2.0.1",
+    "is-my-json-valid": "^2.19.0",
+    "morgan": "~1.9.0",
+    "mqtt": "^2.18.8",
+    "mysql": "^2.16.0",
+    "q": "^1.5.1"
+  }
+}

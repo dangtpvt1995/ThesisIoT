@@ -1,0 +1,36 @@
+{
+    "mqtt_config": {
+        "mqtt_option": {
+            "port": 16543,
+            "host": "mqtt://m15.cloudmqtt.com",
+            "username": "computer_client",
+            "password": "1234",
+            "keepalive": 60,
+            "clientId": "mqttclient02",
+            "reconnectPeriod": 1000,
+            "protocolId": "MQIsdp",
+            "protocolVersion": 3,
+            "clean": false,
+            "encoding": "utf8"
+        },
+        "mqtt_client_topic": "PROJECT/#",
+      
+        "mqtt_will": {
+            "topic": "test",
+            "payload": "",
+            "qos": 1,
+            "retain": 1,
+            "properties": {
+                "willDelayInterval": 10,
+                "responseTopic": "test"
+            }
+        }
+    },
+    "mysql_config": {
+        "host": "127.0.0.1",
+        "port": 3306,
+        "database": "thesis",
+        "user": "root",
+        "password": "1234"
+    }
+}
