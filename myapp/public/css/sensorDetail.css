@@ -1,0 +1,46 @@
+span{
+    font-size: 16px;
+}
+div.sensorDetail{
+    font-size: 16px;
+    margin-bottom: 50px;
+}
+div.sensorDetail label{
+    width: 170px;
+    
+}
+div#detailTempSensor{
+    width: 85%;
+    padding: 5px;
+    border: 1px solid black;
+}
+div#detailHumiSensor{
+    margin-left: 40px;
+    width: 85%;
+    padding: 5px;
+    border: 1px solid black;
+}
+div#sensorDetailInfor{
+    margin: 0;
+    border: 1px solid black;
+}
+label.labelDetailSensor{
+    width: 230px;
+}
+footer {
+    border-radius: 5px;
+    margin-top: 10px;
+    width: 87.5%;
+    height: 50px;
+    background-color: black;
+    color: white;
+    position: absolute;
+    bottom: 0;
+}
+span.footer1{
+    text-align: center;
+    padding: 12px;
+    padding-left: 25px;
+    padding-right: 25px;
+    font-size: 16px;
+}

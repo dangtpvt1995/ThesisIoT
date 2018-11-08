@@ -23,15 +23,74 @@ function getAllData(sensorName){
         }
         else{
             console.log("Lấy dữ liệu thành công");
-            
             defer.resolve(result);
         }
     });
     return defer.promise;
 }
-function findDataByDate(date){
+function findDataByDate(date,sensorName){
     var defer = q.defer();
-    let queryUrl= "SELECT * FROM sensor1"+" Where date= "+"'"+date+"'";
+    let queryUrl= "SELECT * FROM "+sensorName+" Where date= "+"'"+date+"'";
+    console.log(queryUrl);
+    conn.query(queryUrl,function(err,result){
+        if(err){
+            defer.reject(err);
+        }
+        else{
+            console.log("Lấy dữ liệu thành công bằng date");
+            defer.resolve(result);
+        }
+    });
+    return defer.promise;
+}
+function findTempMax(date,sensorName){
+    var defer = q.defer();
+    let queryUrl= "SELECT max(temp) FROM "+sensorName+" Where date= "+"'"+date+"'";
+    console.log(queryUrl);
+    conn.query(queryUrl,function(err,result){
+        if(err){
+            defer.reject(err);
+        }
+        else{
+            console.log("Lấy dữ liệu thành công bằng date");
+            defer.resolve(result);
+        }
+    });
+    return defer.promise;
+}
+function findTempMin(date,sensorName){
+    var defer = q.defer();
+    let queryUrl= "SELECT min(temp) FROM "+sensorName+" Where date= "+"'"+date+"'";
+    console.log(queryUrl);
+    conn.query(queryUrl,function(err,result){
+        if(err){
+            defer.reject(err);
+        }
+        else{
+            console.log("Lấy dữ liệu thành công bằng date");
+            defer.resolve(result);
+        }
+    });
+    return defer.promise;
+}
+function findHumiMax(date,sensorName){
+    var defer = q.defer();
+    let queryUrl= "SELECT max(humi) FROM "+sensorName+" Where date= "+"'"+date+"'";
+    console.log(queryUrl);
+    conn.query(queryUrl,function(err,result){
+        if(err){
+            defer.reject(err);
+        }
+        else{
+            console.log("Lấy dữ liệu thành công bằng date");
+            defer.resolve(result);
+        }
+    });
+    return defer.promise;
+}
+function findHumiMin(date,sensorName){
+    var defer = q.defer();
+    let queryUrl= "SELECT min(humi) FROM "+sensorName+" Where date= "+"'"+date+"'";
     console.log(queryUrl);
     conn.query(queryUrl,function(err,result){
         if(err){
@@ -47,5 +106,10 @@ function findDataByDate(date){
 module.exports = {
     addData:addData,
     getAllData:getAllData,
-    findDataByDate:findDataByDate
+    findDataByDate:findDataByDate,
+    findTempMax:findTempMax,
+    findTempMin:findTempMin,
+    findHumiMax:findHumiMax,
+    findHumiMin:findHumiMin
+
 }

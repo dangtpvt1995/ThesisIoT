@@ -32,42 +32,10 @@ router.get('/', function (req, res, next) {
   });
 });
 
-router.get("/sensor1", function (req, res, next) {
-  var data = daoSensor.findDataByDate("2018/11/05");
-  data.then(function (data) {
-    if (data) {
-      console.log(data);
-      res.render("sensor1", { data: { dataAll: data } });
-    }
-  }).catch(function (err) {
-  });
 
-});
-router.post("/sensor1", function (req, res) {
-  let date = req.body.date;
-  let dateArr = date.split("/");
-  let dateDB = dateArr[2] + "/" + dateArr[1] + "/" + dateArr[0];
-  console.log(dateDB);
-  let data = daoSensor.findDataByDate(dateDB);
-  data.then(function (err) {
-    if (data) {
-      res.render("sensor1", { data: { dataDate: data } });
-    }
-  }).catch(function (err) {
-    console.log(err);
-  })
-});
 
-router.get("/sensor2", function (req, res, next) {
-  var data = daoSensor.getAllData("sensor2");
-  data.then(function (data) {
-    if (data) {
-      res.render("sensor2", { data: data });
-    }
-  }).catch(function (err) {
-    console.log(err);
-  });
-});
+
+
 
 client.on('connect', function () {
   router.get('/stream', function (req, res) {
