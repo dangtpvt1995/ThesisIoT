@@ -24,6 +24,8 @@
     <script src="/javascripts/chart.js"></script>
     <script src="/javascripts/common.js"></script>
     <script src="/javascripts/sensor2.js"></script>
+    <script type="text/javascript" src="/jsPDF/dist/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.5/jspdf.plugin.autotable.js"></script>
 
 
 </head>
@@ -83,6 +85,7 @@
                     </div>
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                 <p style="font-size:16px;font-weight:bold;text-transform: uppercase">Chọn ngày muốn lọc dữ liệu:</p>
                     <form method="POST" action="/sensor2">
                         <div class='input-group date' style="width: 50%">
                             <input id='datetimepicker' class="form-control datetimepicker" name="date" style="width: 300px" />
@@ -92,6 +95,8 @@
                             <input type="submit" value="Xác Nhận" style="height: 34px;width: 80px;background: blue;color: white;float: left;margin-left: 20px;border: none;border-radius: 5px">
                         </div>
                     </form>
+                    <button id="getData" style="margin-left: 10px;float: right;margin-top: -34px;margin-right: 20px;width: 80px;height: 34px;border: none;border-radius: 5px;background: orange;color: white" id="btnInPdf">In file pdf</button>
+                    <div style="clear: both"></div>
                     <br>
                     <br>
                     <div class="row sensorDetail">

@@ -5,7 +5,6 @@ router.get("/", function (req, res) {
     var data = daoSensor.getAllData("sensor2");
     data.then(function (data,err) {
       if (data) {
-        console.log(data)
         res.render("sensor2", { data: { dataAll: data } });
       }
     }).catch(function (err) {
@@ -13,6 +12,16 @@ router.get("/", function (req, res) {
     });
   });
 
+  router.get("/download",function(req,res,next){
+    var data = daoSensor.getAllData("sensor2");
+    data.then(function (data) {
+      if (data) {
+        res.send(JSON.stringify(data));
+      }
+    }).catch(function (err) {
+    });
+   
+  });
   router.post("/", function (req, res, next) {
     let date = req.body.date;
     let dateArr = date.split("/");

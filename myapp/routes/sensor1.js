@@ -2,6 +2,16 @@
 var express = require('express');
 var router = express.Router();
 let daoSensor = require('../DAO/sensorDao');
+router.get("/download",function(req,res,next){
+  var data = daoSensor.getAllData("sensor1");
+  data.then(function (data) {
+    if (data) {
+      res.send(JSON.stringify(data));
+    }
+  }).catch(function (err) {
+  });
+ 
+});
 
 router.get("/", function (req, res, next) {
   var data = daoSensor.getAllData("sensor1");

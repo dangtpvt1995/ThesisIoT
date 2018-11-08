@@ -24,6 +24,8 @@
     <script src="/javascripts/chart.js"></script>
     <script src="/javascripts/common.js"></script>
     <script src="/javascripts/sensor1.js"></script>
+    <script type="text/javascript" src="/jsPDF/dist/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.5/jspdf.plugin.autotable.js"></script>
 
 </head>
 
@@ -41,7 +43,7 @@
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                     <div class="table-responsive" style="height: 700px;width: 100%;overflow-y: scroll;margin-bottom: 60px">
-                        <table class="table table-bordered table-hover">
+                        <table class="table table-bordered table-hover" id="savePDF">
                             <thead style="background-color: black;color: white">
                                 <tr>
                                     <th style="width: 10%;text-align: center">Stt</th>
@@ -90,13 +92,15 @@
                             <span class="input-group-addon datetimepicker-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
-                            <input type="submit" value="Xác Nhận" style="height: 34px;width: 80px;background: blue;color: white;float: left;margin-left: 20px;border: none;border-radius: 5px">
+                            <input type="submit" value="Xác Nhận" style="height: 34px;width: 80px;background: blue;color: white;float: left;margin-left: 20px;border: none;border-radius: 5px" id="btnXacNhan">  
                         </div>
                     </form>
+                    <button id="getData" style="margin-left: 10px;float: right;margin-top: -34px;margin-right: 20px;width: 80px;height: 34px;border: none;border-radius: 5px;background: orange;color: white" id="btnInPdf">In file pdf</button>
+                    <div style="clear: both"></div>
                     <br>
                     <br>
                     <div class="row sensorDetail">
-                        <p style="width: 100%;text-align: center;font-size: 20px;font-weight: bold">
+                        <p style="width: 100%;text-align: center;font-size: 20px;font-weight: bold" id="dateFind">
                             <%= data.dateFind%>
                         </p>
                         <div class="col-xs-6 col-sm-6 col-md-12 col-lg-6">
@@ -156,13 +160,15 @@
                         <label class="labelDetailSensor">Thời gian offline gần nhất: </label><span>cb1</span><br>
 
                     </div>
-
                 </div>
+                <br>
+                
                 <!--Bắt đầu cảm footer-->
                 <%- include ../public/commonhtml/footer.html %>
                 <!--Kết thúc footer-->
             </div>
         </div>
+       
 </body>
 
 </html>
