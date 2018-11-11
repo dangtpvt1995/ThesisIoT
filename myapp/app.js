@@ -7,6 +7,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var routerSensor1 = require('./routes/sensor1')
 var routerSensor2 = require('./routes/sensor2')
+var routerController = require('./routes/controller')
 var app = express();
 
 // view engine setup
@@ -20,6 +21,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/controller', routerController);
 app.use('/sensor1', routerSensor1);
 app.use('/sensor2', routerSensor2);
 app.use('/users', usersRouter);
