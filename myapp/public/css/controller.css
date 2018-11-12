@@ -5,18 +5,6 @@ main{
     margin: 0;
     height: 56.7vh;
 }
-div#sensor1Controller{
-    
-    border-radius: 5px;
-    background: red;
-    height: 300px;
-
-}
-div#sensor2Controller{
-
-    background: green;
-    height: 300px; 
-}
 footer {
 
     border-radius: 5px;
@@ -34,4 +22,47 @@ span.footer1{
     padding-left: 25px;
     padding-right: 25px;
     font-size: 16px;
+}
+
+
+div.sensorController{
+    width: 550px;
+    padding: 15px;
+    border-radius: 5px;
+    border: 2px solid blue;
+    height: 300px;
+
+}
+
+
+img.imgLed{
+    margin-left: 183px;
+    width: 150px;
+    height: 150px;
+}
+input.btnController{
+     margin-top: 25px;
+    border: none;
+    border-radius: 10px;
+    width: 70px;
+    height: 35px;
+}
+input.btnOnController{
+    margin-left: 144px;
+    color: white;
+    background: green;
+}
+input.btnController:hover{
+    transform: scale(1.2)
+}
+input.btnOffController{
+    margin-left: 80px;
+    color: white;
+    background: red;
+}
+p.titleController{
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 20px;
 }

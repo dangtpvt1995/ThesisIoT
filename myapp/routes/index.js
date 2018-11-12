@@ -32,11 +32,6 @@ router.get('/', function (req, res, next) {
   });
 });
 
-
-
-
-
-
 client.on('connect', function () {
   router.get('/stream', function (req, res) {
     res.writeHead(200, {

@@ -11,9 +11,13 @@
             "protocolId": "MQIsdp",
             "protocolVersion": 3,
             "clean": false,
-            "encoding": "utf8"
+            "encoding": "utf8",
+            "queueQoSZero":false,
+            "clean":false,
+            "reconnectPeriod":1000,
+            "connectTimeout":30000
         },
-        "mqtt_client_topic": "PROJECT/#",
+        "mqtt_client_topic": "PROJECT/SENSOR/#",
       
         "mqtt_will": {
             "topic": "test",
