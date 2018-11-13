@@ -19,8 +19,7 @@ client.on('connect', function () {
     router.post("/", function (req, res, next) {
         var data={
             id:req.body.id,
-            status:req.body.status,
-            isDone:req.body.isDone
+            status:req.body.status
         }
         res.status(201).json({
             message:"nothing",
@@ -37,9 +36,7 @@ client.on('connect', function () {
                 status = 0;
             }
             msg = {
-                id: id,
-                status: status,
-                isDone: 0
+                status: status
             }
             msg = JSON.stringify(msg);
             console.log(msg);
@@ -57,10 +54,8 @@ client.on('connect', function () {
             else if (status === "OFF") {
                 status = 0;
             }
-            msg = {
-                id: id,
-                status: status,
-                isDone: 0
+            msg = {           
+                status: status
             }
             msg = JSON.stringify(msg);
             console.log(msg);
@@ -89,6 +84,7 @@ client.on('connect', function () {
             else{
                 client.on("message", function (topic, msg, package) {
                     console.log(msg.toString());
+                    res.write("id: "+"sensor1\n");
                     res.write("data: " + msg + "\n\n");
                 });
             }
