@@ -40,11 +40,11 @@ client.on('connect', function () {
       'Connection': 'keep-alive'
     });
     res.write('\n');
-
+    
     // Timeout timer, send a comment line every 20 sec
-    var timer = setInterval(function () {
-      res.write('event: ping' + '\n\n');
-    }, 20000);
+    // var timer = setInterval(function () {
+    //   res.write('event: ping' + '\n\n');
+    // }, 20000);
 
     client.subscribe(topic, { qos: 2 }, function () {
       client.on('message', function (topic, msg, pkt) {
@@ -99,3 +99,4 @@ client.on("error", function (error) {
 });
 
 module.exports = router;
+

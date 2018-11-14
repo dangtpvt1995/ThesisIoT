@@ -1,38 +1,60 @@
 $(document).ready(function () {
 
-    var es = new EventSource('/controller/stream');
-    es.addEventListener('open', function (event) {
+    var es1 = new EventSource('/controller/stream');
+    es1.addEventListener('open', function (event) {
         console.log("Kết nối đã được mở")
     }, false);
-    es.addEventListener('error', function (event) {
+    es1.addEventListener('error', function (event) {
         console.log("Kết nối đã đóng")
     }, false);
 
-    es.addEventListener('message', function (e) {
-        console.log(e);
+    es1.addEventListener('message', function (e) {
+        console.log(e.data);
         var data = JSON.parse(e.data);
-        var id=e.lastEventId;
-        console.log(id);
-        console.log(data);
-        if (data && id) {
+        var id = e.lastEventId;
+        if (data !== "" && id) {
             if (id == "sensor1") {
-                if (data.status==1) {
-                    $("#imgledSenssor1").attr("src", "/images/led-green-md.png");
+                if (data.status) {
+                    if (data.status == 1) {
+                        $("#imgledSenssor1").attr("src", "/images/led-green-md.png");
+                    }
+                    else {
+                        $("#imgledSenssor1").attr("src", "/images/red-led-off-md.png");
+
+                    }
+
                 }
-                else {
-                    $("#imgledSenssor1").attr("src", "/images/red-led-off-md.png");
-               
+                if (data.msg) {
+                    if (data.msg == "offline") {
+                        $("#imgledSenssor1").attr("src", "/images/led-off.png");
+                        console.log(data.msg);
+                    }
+                    else {
+                        console.log(data.msg);
+                    }
                 }
 
             }
-            else if (id == "sensor2") {
-                if (data.status==1) {
-                    $("#imgledSenssor2").attr("src", "/images/led-green-md.png");
-                }
-                else {
-                    $("#imgledSenssor2").attr("src", "/images/red-led-off-md.png");
-                }
+            else if(id=="sensor2") {
+                if (data.status) {
+                    if (data.status == 1) {
+                        $("#imgledSenssor2").attr("src", "/images/led-green-md.png");
+                    }
+                    else {
+                        $("#imgledSenssor2").attr("src", "/images/red-led-off-md.png");
 
+                    }
+                }
+                if (data.msg) {
+                    if (data.msg == "offline") {
+                        console.log(id);
+                        console.log(data.msg);
+                        $("#imgledSenssor2").attr("src", "/images/led-off.png");
+                    }
+                    else {
+                        console.log(data.msg);
+                    }
+                }
             }
         }
         else {
@@ -40,6 +62,7 @@ $(document).ready(function () {
         }
 
     });
+
     $("#btnOnController1").click(function () {
         $.ajax({
             url: "http://localhost:8000/controller",
@@ -57,7 +80,7 @@ $(document).ready(function () {
             }
 
         });
-       // $("#imgledSenssor1").attr("src", "/images/led-green-md.png");
+        // $("#imgledSenssor1").attr("src", "/images/led-green-md.png");
     });
     $("#btnOffController1").click(function () {
         $.ajax({
@@ -75,7 +98,7 @@ $(document).ready(function () {
                 console.log("Error post data");
             }
         });
-      //  $("#imgledSenssor1").attr("src", "/images/red-led-off-md.png");
+        //  $("#imgledSenssor1").attr("src", "/images/red-led-off-md.png");
 
     });
 
@@ -95,7 +118,7 @@ $(document).ready(function () {
                 console.log("Error post data");
             }
         });
-        $("#imgledSenssor2").attr("src", "/images/led-green-md.png");
+        // $("#imgledSenssor2").attr("src", "/images/led-green-md.png");
     });
     $("#btnOffController2").click(function () {
         $.ajax({
@@ -113,6 +136,10 @@ $(document).ready(function () {
                 console.log("Error post data");
             }
         });
-        $("#imgledSenssor2").attr("src", "/images/red-led-off-md.png");
     });
+    window.onload = function () {
+        $.get('http://localhost:8000/controller/load', function () {
+            console.log("Đã reconect");
+        });
+    }
 });

@@ -1,13 +1,5 @@
 
 $(document).ready(function () {
-  //Phần xử lý giao diện
-  // var path = window.location.pathname.split("/").pop();
-  // if(path == ''){
-  //   path='/';
-  // }
-  // $('nav.navCustom ul.custom>li>a[href="'+path+'"]').parent().addClass('active');
-
-  //Phần lấy data
   let es = new EventSource('/stream');
   let chart1 = drawChart("#line-chartcanvas1");
   let chart2 = drawChart("#line-chartcanvas2");
