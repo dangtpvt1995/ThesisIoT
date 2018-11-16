@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="shortcut icon" type="images/ico" href="/images/icon_website.ico"/>
+    <link rel="shortcut icon" type="images/ico" href="/images/icon_website.ico" />
     <title>Hệ thống IoT</title>
 
 
@@ -16,17 +16,24 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css"
         rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.dataTables.min.css">
 
+    <script></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//code.jquery.com/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="/jsPDF/dist/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.5/jspdf.plugin.autotable.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/locale/vi.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
+
     <script src="/javascripts/chart.js"></script>
     <script src="/javascripts/common.js"></script>
     <script src="/javascripts/sensor2.js"></script>
-    <script type="text/javascript" src="/jsPDF/dist/jspdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.5/jspdf.plugin.autotable.js"></script>
 
 
 </head>
@@ -41,114 +48,110 @@
             <!--Bắt đầu phần nav-->
             <%- include ../public/commonhtml/nav.html %>
             <!--Kết thúc phần nav-->
+
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                    <div class="table-responsive" style="height: 700px;width: 100%;overflow-y: scroll;margin-bottom: 60px">
-                        <table class="table table-bordered table-hover">
-                            <thead style="background-color: black;color: white">
-                                <tr>
-                                    <th style="width: 10%;text-align: center">Stt</th>
-                                    <th style="width: 18%; text-align: right;">Nhiệt độ</th>
-                                    <th style="width: 18%;text-align: right">Độ ẩm</th>
-                                    <th style="width: 27%;text-align: center">Thời gian</th>
-                                    <th style="text-align: center">Ngày</th>
-                                </tr>
-                            </thead>
-                            <%if(data && data.dataAll){ %>
-                            <tbody>
-                                <% for(let i =0;i<data.dataAll.length;i++){ %>
-                                <tr>
-                                    <td style="text-align: center">
-                                        <%=  data.dataAll[i].number %>
-                                    </td>
-                                    <td style="text-align: right">
-                                        <%=  data.dataAll[i].temp  %>°C</td>
-                                    <td style="text-align: right">
-                                        <%=  data.dataAll[i].humi  %>%</td>
-                                    <td style="text-align: center">
-                                        <%=  data.dataAll[i].time  %>
-                                    </td>
-                                    <% let a= new Date(data.dataAll[i].date) 
-                                            let day =a.getDate()<10?"0"+a.getDate():a.getDate();
-                                            let month = a.getMonth()+1<10?"0"+a.getMonth()+1:a.getMonth()+1;
-                                            let year = a.getFullYear();
-                                            let date=day+"/"+month+"/"+year;
-                                        %>
-                                    <td style="width: 10%;text-align: center">
-                                        <%= date %>
-                                    </td>
-                                </tr>
-                                <% }%>
-                            </tbody>
-                            <% }%>
-                        </table>
-                        <br>
-                    </div>
+                    <table id="example" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th style="width: 14%">STT</th>
+                                <th style="width: 20%">Nhiệt độ</th>
+                                <th style="width: 20%">Độ ẩm</th>
+                                <th style="width: 25%">Thời gian</th>
+                                <th>Ngày</th>     
+                            </tr>
+                        </thead>
+                        <tfoot>                         
+                        </tfoot>
+                    </table>
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                 <p style="font-size:16px;font-weight:bold;text-transform: uppercase">Chọn ngày muốn lọc dữ liệu:</p>
-                    <form method="POST" action="/sensor2">
-                        <div class='input-group date' style="width: 50%">
-                            <input id='datetimepicker' class="form-control datetimepicker" name="date" style="width: 300px" />
-                            <span class="input-group-addon datetimepicker-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
-                            <input type="submit" value="Xác Nhận" style="height: 34px;width: 80px;background: blue;color: white;float: left;margin-left: 20px;border: none;border-radius: 5px">
+                    <p style="font-size:16px;font-weight:bold;text-transform: uppercase;text-align: center">Chọn ngày
+                        và thời gian tìm dữ liệu</p>
+                    <form >
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <div class='input-group date' id='datetimepicker'>
+                                        <input id="datePicker" class="form-control " name="date" style="width: 250px" required  />
+                                        <span class="input-group-addon ">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                    <!-- <p class="label label-danger" style="font-size: 13px;display: none" id="validate">Ngày không được để trống</p> -->
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <div class='input-group date' id='datetimepicker6'>
+                                            <input type='text' class="form-control" name="frmTime"   />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-time"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
+                                    <div class="form-group">
+                                        <div class='input-group date' id='datetimepicker7'>
+                                            <input type='text' class="form-control"  name="toTime" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-time"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        <br>
+                        <input type="button" value="Xác Nhận" style="height: 34px;width: 80px;background: blue;color: white;border: none;border-radius: 5px;margin-top:-8px"
+                            id="btnXacNhan">
                     </form>
-                    <button id="getData" style="margin-left: 10px;float: right;margin-top: -34px;margin-right: 20px;width: 80px;height: 34px;border: none;border-radius: 5px;background: orange;color: white" id="btnInPdf">In file pdf</button>
+                    <button id="getData" style="margin-left: 100px; float:left;margin-top: -35px;margin-right: 20px;width: 80px;height: 34px;border: none;border-radius: 5px;background: orange;color: white"
+                        id="btnInPdf">In file pdf</button>
                     <div style="clear: both"></div>
-                    <br>
-                    <br>
+
                     <div class="row sensorDetail">
-                        <p style="width: 100%;text-align: center;font-size: 20px;font-weight: bold">
-                            <%= data.dateFind%>
+                        <p style="width: 100%;text-align: center;font-size: 20px;font-weight: bold" id="dateFind">
+                           
                         </p>
                         <div class="col-xs-6 col-sm-6 col-md-12 col-lg-6">
                             <div id="detailTempSensor">
                                 <label>Nhiệt độ cao nhất:</label><br>
-                                <span style="color:red">
-                                    <%= data.maxTemp  %>°C 
+                                <span style="color:red" id="maxTemp">
                                 </span>
-                                <span style="margin-left: 10px">
-                                    <%=data.maxTimeTemp %>
+                                <span style="margin-left: 10px" id="maxTimeTemp">
                                 </span>
                                 <br>
                                 <label>Nhiệt độ thấp nhất:</label><br>
-                                <span style="color:red">
-                                    <%= data.minTemp  %>°C 
+                                <span style="color:red" id="minTemp">
                                 </span>
-                                <span style="margin-left: 10px">
-                                    <%=data.minTimeTemp %>
+                                <span style="margin-left: 10px"  id="minTimeTemp">
                                 </span>
                                 <br>
                                 <label>Nhiệt độ trung bình: </label><br>
-                                <span style="color:red">
-                                    <%= data.avgTemp  %>°C
+                                <span style="color:red" id="avgTemp">
                                 </span>
                             </div>
                         </div>
                         <div class="col-xs-6 col-sm-6 col-md-12 col-lg-6">
                             <div id="detailHumiSensor">
                                 <label>Độ ẩm cao nhất: </label><br>
-                                <span style="color:blue">
-                                    <%= data.maxHumi  %>%
+                                <span style="color:blue" id="maxHumi">
                                 </span>
-                                <span style="margin-left: 10px">
-                                    <%=data.maxTimeHumi %>
+                                <span style="margin-left: 10px" id="maxTimeHumi">
                                 </span>
                                 <br>
                                 <label>Độ ẩm thấp nhất: </label><br>
-                                <span style="color:blue">
-                                    <%= data.minHumi  %>% 
+                                <span style="color:blue"id="minHumi">
                                 </span>
-                                <span style="margin-left: 10px">
-                                    <%=data.minTimeHumi %>
+                                <span style="margin-left: 10px" id="minTimeHumi">
                                 </span>
                                 <br>
                                 <label>Độ ẩm trung bình: </label><br>
-                                <span style="color:blue">
-                                    <%= data.avgHumi  %>%
+                                <span style="color:blue" id="avgHumi">
                                 </span>
                             </div>
                         </div>
@@ -159,19 +162,16 @@
                         <label class="labelDetailSensor">Username trên MQTT: </label><span>sensor2</span><br>
                         <label class="labelDetailSensor">ID của cảm biến: </label><span>cb2</span><br>
                         <label class="labelDetailSensor">Thời gian offline gần nhất: </label><span>cb2</span><br>
-    
+
                     </div>
                 </div>
-               
-               
+                <br>
+                <!--Bắt đầu cảm footer-->
+                <%- include ../public/commonhtml/footer.html %>
+                <!--Kết thúc footer-->
             </div>
-            <!--Bắt đầu cảm footer-->
-            <%- include ../public/commonhtml/footer.html %>
-            <!--Kết thúc footer-->
         </div>
-    </div>
 
 </body>
-
 
 </html>

@@ -2,6 +2,8 @@
 var express = require('express');
 var router = express.Router();
 let daoSensor = require('../DAO/sensorDao');
+let moment = require('moment');
+
 router.get("/download",function(req,res,next){
   var data = daoSensor.getAllData("sensor1");
   data.then(function (data) {
@@ -14,7 +16,13 @@ router.get("/download",function(req,res,next){
 });
 
 router.get("/", function (req, res, next) {
-  var data = daoSensor.getAllData("sensor1");
+
+  var day= moment().date();
+  var month = moment().month()+1;
+  var year = moment().year();
+   var now = year+"/"+month+"/"+day;
+ 
+  var data = daoSensor.findDataByDate(now,"sensor1");
   data.then(function (data) {
     if (data) {
       res.render("sensor1", { data: { dataAll: data } });
@@ -24,11 +32,32 @@ router.get("/", function (req, res, next) {
 });
 
 router.post("/", function (req, res, next) {
-  let date = req.body.date;
-  let dateArr = date.split("/");
-  let dateDB = dateArr[2] + "/" + dateArr[1] + "/" + dateArr[0];
-  let data = daoSensor.findDataByDate(dateDB, "sensor1");
+  var data = {
+    date :req.body.datePicker,
+    frmTime : req.body.frmTime,
+    toTime : req.body.toTime,
+  }
 
+  var date = data.date;
+  var frmTime = data.frmTime;
+  var toTime = data.toTime;
+  var dateArr = date.split("/");
+  var dateDB = dateArr[2] + "/" + dateArr[1] + "/" + dateArr[0];
+  if(frmTime !== "" && toTime !==""){
+    var data = daoSensor.findDataByDateTime(dateDB,"sensor1",frmTime,toTime);
+  }
+  else if(frmTime !=""){
+    let toTime = "23:59:59";
+    var data = daoSensor.findDataByDateTime(dateDB,"sensor1",frmTime,toTime);
+  }
+  else if(toTime !=""){
+    let frmTime = "00:00:00";
+    var data = daoSensor.findDataByDateTime(dateDB,"sensor1",frmTime,toTime);
+  }
+
+  else if(frmTime =="" && toTime ==""){
+    var data = daoSensor.findDataByDate(dateDB,"sensor1");
+  }
   data.then(function (data, err) {
     var sumTemp = 0;
     var sumHumi = 0;
@@ -40,7 +69,7 @@ router.post("/", function (req, res, next) {
         let day = a.getDate() < 10 ? "0" + a.getDate() : a.getDate();
         let month = a.getMonth() + 1 < 10 ? "0" + a.getMonth() + 1 : a.getMonth() + 1;
         let year = a.getFullYear();
-        let date = day + "/" + month + "/" + year;
+        var date = day + "/" + month + "/" + year;
         var maxTemp = data[0].temp;
         var maxHumi = data[0].humi;
         var minTemp = data[0].temp;
@@ -69,7 +98,7 @@ router.post("/", function (req, res, next) {
       }
       let avgHumi = (sumHumi / data.length).toFixed(3);
       let avgTemp = (sumTemp / data.length).toFixed(3);
-      res.render("sensor1", {
+      res.status(200).json({
         data:
         {
           dataAll: data,

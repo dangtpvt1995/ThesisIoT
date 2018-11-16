@@ -17,7 +17,7 @@
             "reconnectPeriod":1000,
             "connectTimeout":30000
         },
-        "mqtt_client_topic": "PROJECT/SENSOR/#",
+        "mqtt_client_topic": "PROJECT/#",
       
         "mqtt_will": {
             "topic": "test",

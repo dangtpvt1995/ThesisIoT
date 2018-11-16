@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mqtt = require('mqtt');
 var config = require('config');
-const options={
+const options = {
     "port": 16543,
     "host": "mqtt://m15.cloudmqtt.com",
     "username": "computer_controller",
@@ -14,26 +14,26 @@ const options={
     "protocolVersion": 3,
     "clean": false,
     "encoding": "utf8",
-    "queueQoSZero":false,
-    "clean":false,
-    "connectTimeout":30000
+    "queueQoSZero": false,
+    "clean": false,
+    "connectTimeout": 30000
 }
-var client =mqtt.connect(config.get("mqtt_config.mqtt_option.host"), options);
+var client = mqtt.connect(config.get("mqtt_config.mqtt_option.host"), options);
 require('events').EventEmitter.defaultMaxListeners = 200;
 router.get("/", function (req, res, next) {
     res.render("controller", { data: {} });
 });
-router.get('/load',function(req,res,next){
-     client.end();
-     client=mqtt.connect(config.get("mqtt_config.mqtt_option.host"), options);
-     console.log("reconnect");
+router.get('/load', function (req, res, next) {
+    client.end();
+    client = mqtt.connect(config.get("mqtt_config.mqtt_option.host"), options);
+    console.log("reconnect");
     res.redirect('/controller');
 });
-const topicSensor1 = "PROJECT/CONTROLLER/SENSOR1";
-const topicSensor2 = "PROJECT/CONTROLLER/SENSOR2";
+const topicSensor1 = "PROJECT/CONTROLLER/LED1";
+const topicSensor2 = "PROJECT/CONTROLLER/LED2";
 const topicSensorRes = "PROJECT/CONTROLLER/+/RESPONSE";
-const topicSensor1Status="PROJECT/SENSOR/SENSOR1/OFF";
-const topicSensor2Status="PROJECT/SENSOR/SENSOR2/OFF";
+const topicSensor1Status = "PROJECT/SENSOR1/OFF";
+const topicSensor2Status = "PROJECT/SENSOR2/OFF";
 
 client.on('connect', function () {
     router.get('/stream', function (req, res) {
@@ -45,37 +45,66 @@ client.on('connect', function () {
         res.write('\n');
         setInterval(function () {
             res.write('event: ping' + '\n\n');
-        }, 1000);
-        
+        }, 20000);
         client.subscribe(topicSensorRes, function (err) {
             if (err) {
                 console.log(err);
             }
-            else{
-                client.on("message", function (topic, msg, package) {                  
-                    var array = topic.split("/");
-                    if (array[2] == "SENSOR1") {
-                        res.write("id: " + "sensor1\n");
-                        res.write("data: " + msg + "\n\n"); 
-                       
-                    }
-                    else {
-                        res.write("id: " + "sensor2\n");
-                        res.write("data: " + msg + "\n\n");
+            else {
+                client.on("message", function (topic, message, package) {
+                    console.log(topic);
+                   
+                    if(topic === "PROJECT/CONTROLLER/LED1/RESPONSE" || topic === "PROJECT/CONTROLLER/LED2/RESPONSE"){
+                        var array = topic.split("/");
+                        console.log(array[2])
+                        let msg = message;
+                        console.log(msg);
+                        msg = JSON.parse(msg);
+                        let status = msg.status;
+                        console.log(msg);
+                        if (array[2] == "LED1") {
+                            var data = {
+                                content: "online",
+                                status: status
+                            }
+    
+                            data = JSON.stringify(data);
+                            console.log(data);
+                            res.write("id: " + "led1\n");
+                            res.write("data: " + data + "\n\n");
+                        }
+                        else if (array[2] == "LED2") {
+                            var data = {
+                                content: "online",
+                                status: status
+                            }
+                            data = JSON.stringify(data);
+                            console.log(data);
+                            res.write("id: " + "led2\n");
+                            res.write("data: " + data + "\n\n");
+                        } 
                     }
                 });
             }
         });
         client.subscribe(topicSensor1Status,function(err){
-            if(err) throw err;
+            if(err){
+                console.log("Kết nối fail");
+            } 
             else{
-                client.on("message",function(topic, msg, package){
-                    let msgOff={
-                        msg:"offline"
-                    };
-                    msgOff = JSON.stringify(msgOff); 
-                    res.write("id: " + "sensor1\n");
-                    res.write("data: " + msgOff + "\n\n");
+                client.on("message",function(topic, message, package){
+                    if(topic===topicSensor1Status){
+                        console.log(topic);
+                        console.log(message.toString());
+                        let data={
+                            content:"offline",
+                            msg:"Sensor 1 is offline now"
+                        };
+                        data = JSON.stringify(data); 
+                        res.write("id: " + "sensor1\n");
+                        res.write("data: " + data + "\n\n");
+                    }
+                  
                 });
             }
         });
@@ -83,68 +112,70 @@ client.on('connect', function () {
             if(err) throw err;
             else{
                 client.on("message",function(topic, msg, package){
-                    let msgOff={
-                        msg:"offline"
-                    };
-                    msgOff = JSON.stringify(msgOff); 
-                    console.log(topic);
-                    res.write("id: " + "sensor2\n");
-                    res.write("data: " + msgOff + "\n\n");
+                    if(topic === topicSensor2Status){
+                        let data={
+                            content:"offline",
+                            msg:"Sensor 2 is offline now"
+                        };
+                        data = JSON.stringify(data); 
+                        res.write("id: " + "sensor2\n");
+                        res.write("data: " + data + "\n\n");
+                    }            
                 });
             }
         });
-});
-router.post("/", function (req, res, next) {
-    var data = {
-        id: req.body.id,
-        status: req.body.status
-    }
-    res.status(201).json({
-        message: "nothing",
-        data: data
     });
-    var id = data.id;
-    var status = data.status;
-    var msg = "";
-    if (id === "sensor1") {
-        if (status === "ON") {
-            status = 1;
+    router.post("/", function (req, res, next) {
+        let data = {
+            id: req.body.id,
+            status: req.body.status
         }
-        else if (status === "OFF") {
-            status = 0;
-        }
-        msg = {
-            status: status
-        }
-        msg = JSON.stringify(msg);
-
-
-        client.publish(topicSensor1, msg, { qos: 2, retain: false }, function (err) {
-            if (err) {
-                console.log(err);
-            }
+        res.status(201).json({
+            message: "nothing",
+            data: data
         });
-    }
-    if (id === "sensor2") {
-        if (status === "ON") {
-            status = 1;
-        }
-        else if (status === "OFF") {
-            status = 0;
-        }
-        msg = {
-            status: status
-        }
-        msg = JSON.stringify(msg);
-
-        client.publish(topicSensor2, msg, { qos: 2, retain: false, dup: false }, function (err) {
-            if (err) {
-                console.log(err);
+        let id = data.id;
+        let status = data.status;
+        let msg = "";
+        if (id === "sensor1") {
+            if (status === "ON") {
+                status = 1;
             }
-        });
-    }
-});
-    
+            else if (status === "OFF") {
+                status = 0;
+            }
+            msg = {
+                status: status
+            }
+            msg = JSON.stringify(msg);
+
+
+            client.publish(topicSensor1, msg, { qos: 2, retain: true }, function (err) {
+                if (err) {
+                    console.log(err);
+                }
+            });
+        }
+        if (id === "sensor2") {
+            if (status === "ON") {
+                status = 1;
+            }
+            else if (status === "OFF") {
+                status = 0;
+            }
+            msg = {
+                status: status
+            }
+            msg = JSON.stringify(msg);
+
+            client.publish(topicSensor2, msg, { qos: 2, retain: true, dup: false }, function (err) {
+                if (err) {
+                    console.log(err);
+                }
+            });
+        }
+    });
+
 });
 
 

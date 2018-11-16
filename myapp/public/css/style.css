@@ -72,10 +72,11 @@ table th.noidungSystem{
 /* sensor chung */
 
 article.sensor {
-    text-align: center;
+    
 }
 
-article span.titleSensor {
+ label.titleSensor {
+    width: 100%;
     font-size: 16px;
     text-align: center;
     text-transform: uppercase;
@@ -83,24 +84,23 @@ article span.titleSensor {
 }
 
 article.sensor label.readSensor {
-    width: 400px;
-    text-align: center;
+    width: 130px;
+   
 }
 
 label {
-    font-size: 16px;
+    font-size: 15px;
 }
 
 span.valueSensor {
-    padding-left: 5px;
-    padding-right: 5px;
+   
     height: 16px;
     width: 60px;
     border: 1px solid blue;
 }
 
 div.chart-container {
-    width: 600px;
+    width: 580px;
     height: auto;
     margin-bottom: 50px;
 }

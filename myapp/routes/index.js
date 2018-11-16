@@ -6,7 +6,8 @@ var config = require('config');
 let daoSensor = require('../DAO/sensorDao');
 let Sensor = require('../DTO/sensor.js')
 var validator = require('is-json');
-
+const topicSensor1 = "PROJECT/SENSOR1/+";
+const topicSensor2 = "PROJECT/SENSOR2/+";
 
 let count = 0;
 /* GET home page. */
@@ -33,62 +34,66 @@ router.get('/', function (req, res, next) {
 });
 
 client.on('connect', function () {
-  router.get('/stream', function (req, res) {
+  router.get('/stream', function (req, res,next) {
     res.writeHead(200, {
       'Content-Type': 'text/event-stream',
       'Cache-Control': 'no-cache',
       'Connection': 'keep-alive'
     });
     res.write('\n');
-    
+
     // Timeout timer, send a comment line every 20 sec
-    // var timer = setInterval(function () {
-    //   res.write('event: ping' + '\n\n');
-    // }, 20000);
+    var timer = setInterval(function () {
+      res.write('event: ping' + '\n\n');
+    }, 20000);
+    client.subscribe(topicSensor1, function (err) {
+      if (err) throw err
+    });
+    client.subscribe(topicSensor2, function (err) {
+      if (err) throw err
+    });
+    client.on('message', function (topic, msg, pkt) {
+      if (topic.slice(topic.indexOf("/") + 1, topic.lastIndexOf("/")) == "SENSOR1") {
+        if (validator(msg.toString())) {
+          res.write("data: " + msg + "\n\n");
 
-    client.subscribe(topic, { qos: 2 }, function () {
-      client.on('message', function (topic, msg, pkt) {
-        if (topic.slice(topic.indexOf("/") + 1, topic.lastIndexOf("/")) == "SENSOR1") {
-          if (validator(msg.toString())) {
-            res.write("data: " + msg + "\n\n");
-
-            if (topic.slice(topic.lastIndexOf("/") + 1) == "ON") {
-              msg = JSON.parse(msg);
-              console.log("Tiến hành lưu vào DB Sensor1")
-              let sensor = new Sensor(msg.temp, msg.humi, msg.date, msg.time, msg.number);
-              daoSensor.addData("sensor1", sensor);
-            }
-            else if (topic.slice(topic.lastIndexOf("/")) == "OFF") {
-              console.log("Sensor 1 đang ngoại tuyến");
-            }
+          if (topic.slice(topic.lastIndexOf("/") + 1) == "ON") {
+            msg = JSON.parse(msg);
+            console.log("Tiến hành lưu vào DB Sensor1")
+            let sensor = new Sensor(msg.temp, msg.humi, msg.date, msg.time, msg.number);
+            daoSensor.addData("sensor1", sensor);
           }
-          else {
-            console.log("Message của topic PROJECT/SENSOR1/+ không hợp lệ ")
-          }
-        }
-        else if (topic.slice(topic.indexOf("/") + 1, topic.lastIndexOf("/")) == "SENSOR2") {
-          if (validator(msg.toString())) {
-            res.write("data: " + msg + "\n\n");
-            if (topic.slice(topic.lastIndexOf("/") + 1) == "ON") {
-              msg = JSON.parse(msg);
-              console.log("Tiến hành lưu vào DB Sensor2")
-              let sensor = new Sensor(msg.temp, msg.humi, msg.date, msg.time, msg.number);
-              daoSensor.addData("sensor2", sensor);
-            }
-            else if (topic.slice(topic.lastIndexOf("/")) == "OFF") {
-              console.log("Sensor 2 đang ngoại tuyến");
-            }
-          }
-          else {
-            console.log("Message của topic PROJECT/SENSOR2/+ không hợp lệ ")
+          else if (topic.slice(topic.lastIndexOf("/")) == "OFF") {
+            console.log("Sensor 1 đang ngoại tuyến");
           }
         }
         else {
-          console.log("Topic không được đăng kí với hệ thống");
+          console.log("Message của topic PROJECT/SENSOR1/+ không hợp lệ ")
         }
-      });
+      }
+      else if (topic.slice(topic.indexOf("/") + 1, topic.lastIndexOf("/")) == "SENSOR2") {
+        if (validator(msg.toString())) {
+          res.write("data: " + msg + "\n\n");
+          if (topic.slice(topic.lastIndexOf("/") + 1) == "ON") {
+            msg = JSON.parse(msg);
+            console.log("Tiến hành lưu vào DB Sensor2")
+            let sensor = new Sensor(msg.temp, msg.humi, msg.date, msg.time, msg.number);
+            daoSensor.addData("sensor2", sensor);
+          }
+          else if (topic.slice(topic.lastIndexOf("/")) == "OFF") {
+            console.log("Sensor 2 đang ngoại tuyến");
+          }
+        }
+        else {
+          console.log("Message của topic PROJECT/SENSOR2/+ không hợp lệ ")
+        }
+      }
+      else {
+        console.log("Topic không được đăng kí với hệ thống");
+      }
     });
-  });
+   });
+
 
 
 });

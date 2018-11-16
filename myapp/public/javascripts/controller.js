@@ -11,11 +11,14 @@ $(document).ready(function () {
     es1.addEventListener('message', function (e) {
         console.log(e.data);
         var data = JSON.parse(e.data);
+        console.log(e.data);
         var id = e.lastEventId;
-        if (data !== "" && id) {
-            if (id == "sensor1") {
-                if (data.status) {
-                    if (data.status == 1) {
+        var content = data.content;
+        if (data && id) {
+            if (content == "online") {
+                var status = data.status;
+                if (id == "led1") {
+                    if (status == 1) {
                         $("#imgledSenssor1").attr("src", "/images/led-green-md.png");
                     }
                     else {
@@ -24,37 +27,24 @@ $(document).ready(function () {
                     }
 
                 }
-                if (data.msg) {
-                    if (data.msg == "offline") {
-                        $("#imgledSenssor1").attr("src", "/images/led-off.png");
-                        console.log(data.msg);
-                    }
-                    else {
-                        console.log(data.msg);
-                    }
-                }
-
-            }
-            else if(id=="sensor2") {
-                if (data.status) {
-                    if (data.status == 1) {
+                else if (id == "led2") {
+                    if (status == 1) {
                         $("#imgledSenssor2").attr("src", "/images/led-green-md.png");
                     }
                     else {
                         $("#imgledSenssor2").attr("src", "/images/red-led-off-md.png");
 
                     }
+
                 }
-                if (data.msg) {
-                    if (data.msg == "offline") {
-                        console.log(id);
-                        console.log(data.msg);
-                        $("#imgledSenssor2").attr("src", "/images/led-off.png");
-                    }
-                    else {
-                        console.log(data.msg);
-                    }
-                }
+            }
+            else if (content == "offline") {
+               if(id=="led1"){
+                $("#imgledSenssor1").attr("src", "/images/led-off.png");
+               }
+               else if(id=="led2"){
+                $("#imgledSenssor2").attr("src", "/images/led-off.png");  
+               }
             }
         }
         else {
@@ -73,6 +63,7 @@ $(document).ready(function () {
             },
             dataType: "json",
             success: function (data) {
+
                 console.log(data);
             },
             error: function () {
@@ -92,6 +83,7 @@ $(document).ready(function () {
             },
             dataType: "json",
             success: function (data) {
+             
                 console.log(data);
             },
             error: function () {

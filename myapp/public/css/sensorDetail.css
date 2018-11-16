@@ -4,6 +4,7 @@ span{
 div.sensorDetail{
     font-size: 16px;
     margin-bottom: 50px;
+   
 }
 div.sensorDetail label{
     width: 170px;
@@ -23,13 +24,14 @@ div#detailHumiSensor{
 div#sensorDetailInfor{
     margin: 0;
     border: 1px solid black;
+    margin-bottom:150px;
 }
 label.labelDetailSensor{
     width: 230px;
+   
 }
 footer {
     border-radius: 5px;
-    margin-top: 10px;
     width: 87.5%;
     height: 50px;
     background-color: black;
