@@ -13,9 +13,6 @@ $(document).ready(function () {
         format: 'LT',
         locale: 'vi'
     });
-    // $('.datetimepicker-addon').on('click', function () {
-    //     $(this).prev('input#datetimepicker').data('DateTimePicker').toggle();
-    // });
     $('#datetimepicker').datetimepicker();
     $('#datetimepicker6').datetimepicker();
     $('#datetimepicker7').datetimepicker({
@@ -127,38 +124,26 @@ $(document).ready(function () {
                 console.log(data);
                 var dataAll = data.dataAll;
                 var dateFind = data.dateFind;
-                var maxTemp = data.maxTemp;
-                var maxTimeTemp = data.maxTimeTemp;
+                var maxTemp = data.maxTemp;          
                 var minTemp = data.minTemp;
-                var minTimeTemp = data.minTimeTemp;
                 var avgTemp = data.avgTemp; 
                 $('#dateFind').text(dateFind);
-
                 $('#maxTemp').text(maxTemp+" °C");
-                $('#maxTimeTemp').text(maxTimeTemp);
                 $('#minTemp').text(minTemp+" °C");
-                $('#minTimeTemp').text(minTimeTemp);
                 $('#avgTemp').text(avgTemp+" °C");
-                var maxHumi = data.maxHumi;
-                var maxTimeHumi = data.maxTimeHumi;
+                var maxHumi = data.maxHumi;             
                 var minHumi = data.minHumi;
-                var minTimeHumi = data.minTimeHumi;
                 var avgHumi = data.avgHumi; 
                 $('#maxHumi').text(maxHumi+" %");
-                $('#maxTimeHumi').text(maxTimeHumi);
-            
                 $('#minHumi').text(minHumi+" %");
-                $('#minTimeHumi').text(minTimeHumi);
                 $('#avgHumi').text(avgHumi+" %");
                 var count=1;
                 for (var i=0;i<dataAll.length;i++) {
-                    
                     var currentDate = new Date(dataAll[i].date);
                     var day = currentDate.getDate();
                     var month = currentDate.getMonth() + 1;
                     var year = currentDate.getFullYear();
-                    var date = day + "/" + month + "/" + year;
-                    
+                    var date = day + "/" + month + "/" + year;          
                     var object = [
                             count,
                          dataAll[i].temp,
@@ -180,6 +165,9 @@ $(document).ready(function () {
 
         });
     });
-    //datatable
+    //dialog
+   
+   
+
 
 });

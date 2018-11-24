@@ -1,27 +1,20 @@
 var express = require('express');
 var router = express.Router();
-
 var mqtt = require('mqtt');
 var config = require('config');
 let daoSensor = require('../DAO/sensorDao');
 let Sensor = require('../DTO/sensor.js')
 var validator = require('is-json');
-const topicSensor1 = "PROJECT/SENSOR1/+";
-const topicSensor2 = "PROJECT/SENSOR2/+";
+
+//Định dạng topic
+const topicVDKASensor = config.get("mqtt_config.topic_VDKA.sensor");
+const topicVDKBSensor = config.get("mqtt_config.topic_VDKB.sensor");
 
 let count = 0;
-/* GET home page. */
-let will = {
-  topic: "test",
-  payload: "MQTT is dead",
-  qos: 1,
-  retain: true
-}
-let topic = config.get("mqtt_config.mqtt_client_topic");
-let msg = "Succesfull connection";
+//Kết nối
 let clientID = config.get("mqtt_config.mqtt_option.clientId") || "Invalid";
-let client = mqtt.connect(config.get("mqtt_config.mqtt_option.host"), config.get("mqtt_config.mqtt_option"), will);
-const api = "e045ca14-c099-4a1f-bc85-fe5f148e97f7";
+let client = mqtt.connect(config.get("mqtt_config.mqtt_option.host"), config.get("mqtt_config.mqtt_option"));
+
 
 router.get('/', function (req, res, next) {
   res.render('index', {
@@ -46,50 +39,42 @@ client.on('connect', function () {
     var timer = setInterval(function () {
       res.write('event: ping' + '\n\n');
     }, 20000);
-    client.subscribe(topicSensor1, function (err) {
+    client.subscribe(topicVDKASensor, function (err) {
       if (err) throw err
     });
-    client.subscribe(topicSensor2, function (err) {
+    client.subscribe(topicVDKBSensor, function (err) {
       if (err) throw err
     });
     client.on('message', function (topic, msg, pkt) {
-      if (topic.slice(topic.indexOf("/") + 1, topic.lastIndexOf("/")) == "SENSOR1") {
+      var topic = topic;
+      var topicArr = topic.split("/")
+      if (topicArr[1] == "VDKA") {
         if (validator(msg.toString())) {
           res.write("data: " + msg + "\n\n");
-
-          if (topic.slice(topic.lastIndexOf("/") + 1) == "ON") {
+          if (topicArr[2] == "SENSOR") {
             msg = JSON.parse(msg);
             console.log("Tiến hành lưu vào DB Sensor1")
             let sensor = new Sensor(msg.temp, msg.humi, msg.date, msg.time, msg.number);
             daoSensor.addData("sensor1", sensor);
           }
-          else if (topic.slice(topic.lastIndexOf("/")) == "OFF") {
-            console.log("Sensor 1 đang ngoại tuyến");
-          }
         }
         else {
-          console.log("Message của topic PROJECT/SENSOR1/+ không hợp lệ ")
+          console.log("Message của topic PROJECT/VDKA/SENSOR không hợp lệ ")
         }
       }
-      else if (topic.slice(topic.indexOf("/") + 1, topic.lastIndexOf("/")) == "SENSOR2") {
+      else if (topicArr[1] == "VDKB") {
         if (validator(msg.toString())) {
           res.write("data: " + msg + "\n\n");
-          if (topic.slice(topic.lastIndexOf("/") + 1) == "ON") {
+          if (topicArr[2] == "SENSOR") {
             msg = JSON.parse(msg);
             console.log("Tiến hành lưu vào DB Sensor2")
             let sensor = new Sensor(msg.temp, msg.humi, msg.date, msg.time, msg.number);
             daoSensor.addData("sensor2", sensor);
           }
-          else if (topic.slice(topic.lastIndexOf("/")) == "OFF") {
-            console.log("Sensor 2 đang ngoại tuyến");
-          }
         }
         else {
-          console.log("Message của topic PROJECT/SENSOR2/+ không hợp lệ ")
+          console.log("Message của topic PROJECT/VDKB/SENSOR không hợp lệ ")
         }
-      }
-      else {
-        console.log("Topic không được đăng kí với hệ thống");
       }
     });
    });

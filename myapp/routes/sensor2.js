@@ -32,19 +32,19 @@ router.post("/", function (req, res, next) {
   var dateArr = date.split("/");
   var dateDB = dateArr[2] + "/" + dateArr[1] + "/" + dateArr[0];
   if(frmTime !== "" && toTime !==""){
-    var data = daoSensor.findDataByDateTime(dateDB,"sensor1",frmTime,toTime);
+    var data = daoSensor.findDataByDateTime(dateDB,"sensor2",frmTime,toTime);
   }
   else if(frmTime !=""){
     let toTime = "23:59:59";
-    var data = daoSensor.findDataByDateTime(dateDB,"sensor1",frmTime,toTime);
+    var data = daoSensor.findDataByDateTime(dateDB,"sensor2",frmTime,toTime);
   }
   else if(toTime !=""){
     let frmTime = "00:00:00";
-    var data = daoSensor.findDataByDateTime(dateDB,"sensor1",frmTime,toTime);
+    var data = daoSensor.findDataByDateTime(dateDB,"sensor2",frmTime,toTime);
   }
 
   else if(frmTime =="" && toTime ==""){
-    var data = daoSensor.findDataByDate(dateDB,"sensor1");
+    var data = daoSensor.findDataByDate(dateDB,"sensor2");
   }
   data.then(function (data, err) {
     var sumTemp = 0;
@@ -68,19 +68,15 @@ router.post("/", function (req, res, next) {
           sumHumi += element.humi;
           if (element.temp >= maxTemp) {
             maxTemp = element.temp;
-            maxTimeTemp= element.time;
           }
           if (element.temp <= minTemp) {
             minTemp = element.temp;
-            minTimeTemp = element.time;
           }
           if (element.humi >= maxHumi) {
             maxHumi = element.humi;
-            maxTimeHumi = element.time;
           }
           if (element.temp <= minHumi) {
             minHumi = element.humi;
-            minTimeHumi = element.time;
           }
         }
       }
@@ -97,10 +93,6 @@ router.post("/", function (req, res, next) {
           avgHumi: avgHumi,
           avgTemp: avgTemp,
           dateFind: date,
-          maxTimeTemp:maxTimeTemp,
-          minTimeTemp:minTimeTemp,
-          maxTimeHumi:maxTimeHumi,
-          minTimeHumi:minTimeHumi
         }
       });
     }

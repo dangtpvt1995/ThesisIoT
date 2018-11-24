@@ -6,7 +6,7 @@
             "username": "computer_client",
             "password": "1234",
             "keepalive": 60,
-            "clientId": "mqttclient02",
+            "clientId": "computer_client",
             "reconnectPeriod": 1000,
             "protocolId": "MQIsdp",
             "protocolVersion": 3,
@@ -17,17 +17,25 @@
             "reconnectPeriod":1000,
             "connectTimeout":30000
         },
-        "mqtt_client_topic": "PROJECT/#",
-      
-        "mqtt_will": {
-            "topic": "test",
-            "payload": "",
-            "qos": 1,
-            "retain": 1,
-            "properties": {
-                "willDelayInterval": 10,
-                "responseTopic": "test"
-            }
+        "topic_VDKA":{
+            "sensor":"PROJECT/VDKA/SENSOR",
+            "led":"PROJECT/VDKA/LED",
+            "off":"PROJECT/VDKA/OFF",
+            "work":"PROJECT/VDKA/WORK"
+        },
+        "topic_VDKB":{
+            "sensor":"PROJECT/VDKB/SENSOR",
+            "led":"PROJECT/VDKB/LED",
+            "off":"PROJECT/VDKB/OFF",
+            "work":"PROJECT/VDKB/WORK"
+        },
+        "topic_CONTROLLER_RESPONE":{
+            "VDKA":"PROJECT/CONTROLLER/VDKA/RESPONSE/+",
+            "VDKb":"PROJECT/CONTROLLER/VDKB/RESPONSE/+"
+        },
+        "topic_emergency":{
+            "request":"PROJECT/EMERGENCE/REQUEST",
+            "response":"PROJECT/EMERGENCE/RESPONSE"
         }
     },
     "mysql_config": {

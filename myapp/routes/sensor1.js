@@ -65,7 +65,7 @@ router.post("/", function (req, res, next) {
       var maxTemp = 0, minTemp = 0, maxHumi = 0, minHumi = 0;
       for (const key in data) {
         var a = new Date(data[0].date);
-        var maxTimeTemp,minTimeTemp,maxTimeHumi,minTimeHumi ;
+
         let day = a.getDate() < 10 ? "0" + a.getDate() : a.getDate();
         let month = a.getMonth() + 1 < 10 ? "0" + a.getMonth() + 1 : a.getMonth() + 1;
         let year = a.getFullYear();
@@ -79,20 +79,16 @@ router.post("/", function (req, res, next) {
           sumTemp += element.temp;
           sumHumi += element.humi;
           if (element.temp >= maxTemp) {
-            maxTemp = element.temp;
-            maxTimeTemp= element.time;
+            maxTemp = element.temp;        
           }
           if (element.temp <= minTemp) {
-            minTemp = element.temp;
-            minTimeTemp = element.time;
+            minTemp = element.temp;          
           }
           if (element.humi >= maxHumi) {
-            maxHumi = element.humi;
-            maxTimeHumi = element.time;
+            maxHumi = element.humi;        
           }
           if (element.temp <= minHumi) {
             minHumi = element.humi;
-            minTimeHumi = element.time;
           }
         }
       }
@@ -109,10 +105,6 @@ router.post("/", function (req, res, next) {
           avgHumi: avgHumi,
           avgTemp: avgTemp,
           dateFind: date,
-          maxTimeTemp:maxTimeTemp,
-          minTimeTemp:minTimeTemp,
-          maxTimeHumi:maxTimeHumi,
-          minTimeHumi:minTimeHumi
         }
       });
     }
