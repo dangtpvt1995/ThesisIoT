@@ -1,14 +1,12 @@
-
-
+/* common */
 main{
     padding: 0;
     margin: 0;
-    height: 56.7vh;
+    height: 75vh;
 }
 footer {
-
     border-radius: 5px;
-    margin-top: 50px;
+    margin-top: 100px;
     width: 100%;
     height: 50px;
     background-color: black;
@@ -23,32 +21,35 @@ span.footer1{
     padding-right: 25px;
     font-size: 16px;
 }
+/* Phần điều khiển */
 
-
-div.sensorController{
-    width: 550px;
-    padding: 15px;
-    border-radius: 5px;
-    border: 2px solid blue;
-    height: 300px;
-
+div.commonCon{
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
-
+div.wrapVdk{
+    width: 100%;
+    height: 180px;
+    border: 3px solid blue;
+}
 img.imgLed{
-    margin-left: 183px;
-    width: 150px;
-    height: 150px;
+    width: 80px;
+    height: 80px;
 }
 input.btnController{
-     margin-top: 25px;
+    box-sizing: border-box;
+    margin-top: 20px;
     border: none;
-    border-radius: 10px;
-    width: 70px;
+    border-radius: 6px;
+    width: 60px;
     height: 35px;
+    margin-left: 10px;
+    background: #424242;
+    color: white;
 }
 input.btnOnController{
-    margin-left: 144px;
     color: white;
     background: green;
 }
@@ -65,4 +66,45 @@ p.titleController{
     text-align: center;
     text-transform: uppercase;
     font-size: 20px;
+    color: blue;
+}
+
+/* Phần M2M */
+div.job{
+
+}
+div.Controller{
+    box-sizing: border-box;
+    margin-left: 76px;
+}
+label.lblJob{
+    box-sizing: border-box;
+    padding: 5px 5px;
+    margin-left: 9px;
+    border: 2px solid blue;
+    border-radius: 5px;
+    width: 60%;
+    text-align: center;
+    text-transform: uppercase;
+}
+label.circle{
+    margin: 0;
+    padding: 0;
+    margin-left: 40%;
+    width: 20px;
+    height: 20px;
+    background: red;
+    border-radius: 10px;
+}
+button#btnStart{
+    width: 80px;height: 30px;
+    border: none;
+    border-radius: 5px;margin: 0;padding: 0;
+    background: white;
+    color: black;
+    border: 2px solid blue; 
+}
+button#btnStart:hover{ 
+    background: blue;
+    color: white;
 }

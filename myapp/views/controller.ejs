@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="shortcut icon" type="images/ico" href="/images/icon_website.ico"/>
+    <link rel="shortcut icon" type="images/ico" href="/images/icon_website.ico" />
     <title>Hệ thống IoT</title>
 
 
@@ -42,38 +42,157 @@
         <!--Kết thúc phần nav-->
 
         <!--Kết thúc phần header-->
-
         <main>
+
             <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                    <div class="sensorController">
-                        <p class="titleController">Sensor 1</p>
-                        <img src="\images\led-off.png" alt="" class="imgLed" id="imgledSenssor1">
-                        <br>
-                        <form >
-                            <input type="button" value="ON" class="btnController btnOnController " id="btnOnController1"
-                                name="statusSensor">
-                            <input type="button" value="OFF" class="btnController btnOffController" id="btnOffController1"
-                                name="statusSensor">
-                        </form>
-                    </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" class="managerUser">
+                    <label style="text-transform: uppercase;color: blue;font-size: 20px;text-align: center;width: 100%;font-weight:bold">Các
+                        thiết bị đang kết nối</label>
+                    <br>
+                    <label id="clock" style="text-align: center;width: 100%;font-size: 16px"></label>
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr style="background: blue;color: white">
+                                <th style="width: 5%;text-align: center">STT</th>
+                                <th style="width: 16%;text-align: center">TÊN THIẾT BỊ</th>
+                                <th style="width: 10%;text-align: center">ID</th>
+                                <th style="width: 12%;text-align: center">TRẠNG THÁI</th>
+                                <th style="width: 15%;text-align: center">THỜI GIAN KẾT NỐI</th>
+                                <th style="width: 14%;text-align: center">THỜI GIAN NGẮT</th>
+                                <th style="text-align: center">THÔNG BÁO</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Ứng dụng Web</td>
+                                <td id="appWebId"></td>
+                                <td><label class="circle" id="statusWebApp"></label></td>
+                                <td id="timeWebApp" style="text-align: center"></td>
+                                <td id="timeOutWebApp" style="text-align: center"></td>
+                                <td id="msgWebapp"></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Vi điều khiển A</td>
+                                <td id="vdkAId"></td>
+                                <td><label class="circle" id="statusvdkA"></label></td>
+                                <td id="timevdkA" style="text-align: center"></td>
+                                <td id="timeOutvdkA" style="text-align: center"></td>
+                                <td id="msgvdkA"></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Vi điều khiển B</td>
+                                <td id="vdkBId"></td>
+                                <td><label class="circle" id="statusvdkB"></label></td>
+                                <td id="timevdkB" style="text-align: center"></td>
+                                <td id="timeOutvdkB" style="text-align: center"></td>
+                                <td id="msgvdkB"></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Ứng dụng di động</td>
+                                <td id="mobiAppId"></td>
+                                <td><label class="circle" id="statusMobi"></label></td>
+                                <td id="timeMobi" style="text-align: center"></td>
+                                <td id="timeOutMobi" style="text-align: center"></td>
+                                <td id="msgMobi"></td>
+                            </tr>
+                        </tbody>
+                    </table>
 
                 </div>
+            </div>
+            <div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-3 col-md- col-lg-6" style="margin: 0;padding: 0">
+
+                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                            <button type="button" id="btnStart">Bắt đầu</button>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-9 col-lg-9">
+                            <label style="width: 320px;height: 30px;margin: 0;padding: 0">Số chu trình thực hiện: <label style=" width:100px ; border: 2px solid blue;padding-left: 5px;padding-right: 2px;text-align: right" id="countWork">0</label></label>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </div>
+            <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                    <div class="sensorController">
-                        <p class="titleController">Sensor 2</p>
-                        <img src="\images\led-off.png" alt="" class="imgLed" id="imgledSenssor2">
-                        <br>
-                        <form >
-                           
-                            <input type="button" value="ON" class="btnController btnOnController" id="btnOnController2"
-                                name="statusSensor">
-                            <input type="button" value="OFF" class="btnController btnOffController" id="btnOffController2"
-                                name="statusSensor">
-                        </form>
+                    <p class="titleController">Vi điều khiển A</p>
+                    <div class="wrapVdk">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="border-right: 2px solid blue;height:175px">
+                            <div class="commonCon Controller">
+                                <img src="\images\red-led-off-md.png" alt="" class="imgLed" id="imgledvdkA">
+                                <form>
+                                    <input type="button" value="ON" class="btnController" id="btnControllervdkA">
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="commonCon ">
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <div class="job1" style="margin: 0px auto">
+                                            <img src="\images\red-led-off-md.png" alt="" class="imgLed" id="vdkJob1A">
+                                            <br>
+                                            <br>
+                                            <label class="lblJob">Job 1</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <div class="job2" ;style="margin-left: 20px">
+                                            <img src="\images\red-led-off-md.png" alt="" class="imgLed" id="vdkJob3A">
+                                            <br>
+                                            <br>
+                                            <label class="lblJob">Job 3</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <p class="titleController">Vi điều khiển B</p>
+                    <div class="wrapVdk">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="border-right: 2px solid blue;height:175px">
+                            <div class="commonCon Controller">
+                                <img src="\images\red-led-off-md.png" alt="" class="imgLed" id="imgledvdkB">
+                                <form>
+                                    <input type="button" value="ON" class="btnController" id="btnControllervdkB">
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="commonCon ">
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <div class="job1" style="margin: 0px auto">
+                                            <img src="\images\red-led-off-md.png" alt="" class="imgLed" id="vdkJob2B">
+                                            <br>
+                                            <br>
+                                            <label class="lblJob">Job 2</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <div class="job2" ;style="margin-left: 20px">
+                                            <img src="\images\red-led-off-md.png" alt="" class="imgLed" id="vdkJob4B">
+                                            <br>
+                                            <br>
+                                            <label class="lblJob">Job 4</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </main>
 
         <!--Bắt đầu cảm footer-->

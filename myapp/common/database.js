@@ -14,7 +14,6 @@ function getConnection(){
     while(!conn){
         conn.connect();
     }
-    console.log("Kết nối Database thành công");
     return conn;
 }
 module.exports={

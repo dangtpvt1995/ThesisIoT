@@ -41,6 +41,7 @@ hr {
 nav.nav-bar {
     margin: 0 auto;
     margin-bottom: 30px;
+    color: white
 }
 nav.navCustom ul.custom>li>a:hover{
     background: gray;
@@ -49,77 +50,4 @@ nav.navCustom ul.custom>li>a:hover{
 }
 
 
-/* thông tin kết nối */
-
-#systemInfor {
-    width: 600px;
-    margin: 0 auto;
-    margin-bottom: 100px;
-}
-
-table th {
-    width: 70%;
-}
-
-table th.tieude {
-    background: #555555;
-    color: white
-}
-table th.noidungSystem{
-    text-align: right;
-}
-
-/* sensor chung */
-
-article.sensor {
-    
-}
-
- label.titleSensor {
-    width: 100%;
-    font-size: 16px;
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: bold;
-}
-
-article.sensor label.readSensor {
-    width: 130px;
-   
-}
-
-label {
-    font-size: 15px;
-}
-
-span.valueSensor {
-   
-    height: 16px;
-    width: 60px;
-    border: 1px solid blue;
-}
-
-div.chart-container {
-    width: 580px;
-    height: auto;
-    margin-bottom: 50px;
-}
-span.status_off{
-    padding: 5px;
-    border-radius: 5px;
-    text-transform: none;
-    background-color: red;
-    color: white;
-}
-span.status_on{
-    padding: 5px;
-    border-radius: 5px;
-    text-transform: none;
-    background-color: green;
-    color: white;
-}
-div.chart-container{
-    margin: 0 auto;
-}
-/*footer*/
 

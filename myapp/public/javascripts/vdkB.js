@@ -27,7 +27,7 @@ $(document).ready(function () {
         $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
     });
     $('#getData').click(function () {
-        $.get("http://localhost:8000/sensor2/download",
+        $.get("http://localhost:8000/vdkB/download",
             function (data, textStatus, jqXHR) {
                 data = JSON.parse(data);
                 for (var i = 0; i < data.length; i++) {
@@ -97,7 +97,7 @@ $(document).ready(function () {
         };
       
         $.ajax({
-            url: "http://localhost:8000/sensor2",
+            url: "http://localhost:8000/vdkB",
             type: "post",
             data: dataSend,
             dataType: "json",

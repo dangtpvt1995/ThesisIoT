@@ -5,15 +5,49 @@ function addData(sensorName,data){
     let queryUrl= "INSERT INTO "+ sensorName+" SET ?";
     let query = conn.query(queryUrl,data,function(err,result){
         if(err){
-            console.log("Đưa dữ liệu vào db thất bại");
             throw err;
         }
         else{
-            console.log("Lưu dữ liệu thành công");
             console.log(result.insertId)
         }
     });
 }
+function logTime(vdkName,data){
+    let queryUrl= "INSERT INTO "+ vdkName+" SET ?";
+    let query = conn.query(queryUrl,data,function(err,result){
+        if(err){
+            throw err;
+        }
+        else{
+            console.log(result.insertId)
+        }
+    });
+}
+function updateLogTime(vdkName,timeIn,timeOut){
+    let queryUrl= 'UPDATE '+vdkName+ ' SET timeout=? WHERE timein=?';
+    let query = conn.query(queryUrl,[timeOut,timeIn],function(err,result){
+        if(err){
+            throw err;
+        }
+        else{
+            console.log(result.insertId)
+        }
+    });
+}
+function getLogTimeByDate(vdkName,date){
+    var defer = q.defer();
+    let queryUrl= "SELECT * FROM "+vdkName+" where date="+"'"+date+"'";
+    conn.query(queryUrl,function(err,result){
+        if(err){
+            defer.reject(err);
+        }
+        else{
+            defer.resolve(result);
+        }
+    });
+    return defer.promise;
+}
+
 function getAllData(sensorName){
     var defer = q.defer();
     let queryUrl= "SELECT * FROM "+sensorName;
@@ -22,7 +56,6 @@ function getAllData(sensorName){
             defer.reject(err);
         }
         else{
-            console.log("Lấy dữ liệu thành công");
             defer.resolve(result);
         }
     });
@@ -31,13 +64,11 @@ function getAllData(sensorName){
 function findDataByDate(date,sensorName){
     var defer = q.defer();
     let queryUrl= "SELECT * FROM "+sensorName+" Where date= "+"'"+date+"'";
-    console.log(queryUrl);
     conn.query(queryUrl,function(err,result){
         if(err){
             defer.reject(err);
         }
         else{
-            console.log("Lấy dữ liệu thành công bằng date");
             defer.resolve(result);
         }
     });
@@ -46,13 +77,11 @@ function findDataByDate(date,sensorName){
 function findDataByDateTime(date,sensorName,frmTime,toTime){
     var defer = q.defer();
     let queryUrl= "SELECT * FROM "+sensorName+" Where date= "+"'"+date+"'"+" and(time>= "+"'"+frmTime+"'"+" and time<= "+"'"+toTime+"'"+")";
-    console.log(queryUrl);
     conn.query(queryUrl,function(err,result){
         if(err){
             defer.reject(err);
         }
         else{
-            console.log("Lấy dữ liệu thành công bằng date time");
             defer.resolve(result);
         }
     });
@@ -63,5 +92,8 @@ module.exports = {
     addData:addData,
     getAllData:getAllData,
     findDataByDate:findDataByDate,
-    findDataByDateTime:findDataByDateTime
+    findDataByDateTime:findDataByDateTime,
+    logTime:logTime,
+    updateLogTime:updateLogTime,
+    getLogTimeByDate:getLogTimeByDate
 }

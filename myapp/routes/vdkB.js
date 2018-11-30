@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 let daoSensor = require('../DAO/sensorDao');
 router.get("/", function (req, res) {
-  res.render("sensor2", { data: { } });
+  res.render("vdkB", { data: { } });
 });
 
 router.get("/download", function (req, res, next) {

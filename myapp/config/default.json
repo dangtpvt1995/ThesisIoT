@@ -1,41 +1,76 @@
 {
     "mqtt_config": {
-        "mqtt_option": {
+        "webapp_option": {
             "port": 16543,
             "host": "mqtt://m15.cloudmqtt.com",
-            "username": "computer_client",
+            "username": "webapp",
             "password": "1234",
             "keepalive": 60,
-            "clientId": "computer_client",
+            "clientId": "webapp",
             "reconnectPeriod": 1000,
             "protocolId": "MQIsdp",
             "protocolVersion": 3,
-            "clean": false,
+            "encoding": "utf8",
+            "queueQoSZero":false,
+            "clean":false,
+            "connectTimeout":30000,
+            "will":{
+                "topic":"PROJECT/CLIENT/WEBAPP",
+                "payload":"{\"id\":\"webApp\",\"status\":0}",
+                "qos":2,
+                "retain":true
+            }
+        },
+        "controller_option": {
+            "port": 16543,
+            "host": "mqtt://m15.cloudmqtt.com",
+            "username": "computer_controller",
+            "password": "1234",
+            "keepalive": 100,
+            "clientId": "computer_controller",
+            "protocolId": "MQIsdp",
+            "protocolVersion": 3,
             "encoding": "utf8",
             "queueQoSZero":false,
             "clean":false,
             "reconnectPeriod":1000,
             "connectTimeout":30000
         },
+        "topic_manager":{
+            "sensor":"PROJECT/DEVICES/+/SENSOR"
+        },
         "topic_VDKA":{
-            "sensor":"PROJECT/VDKA/SENSOR",
-            "led":"PROJECT/VDKA/LED",
-            "off":"PROJECT/VDKA/OFF",
-            "work":"PROJECT/VDKA/WORK"
+            "sensor":"PROJECT/DEVICES/VDKA/SENSOR",
+            "ledOn":"PROJECT/DEVICES/VDKA/LED/ON",
+            "ledOff":"PROJECT/DEVICES/VDKA/LED/OFF",
+            "off":"PROJECT/DEVICES/VDKA/OFF",
+            "work":"PROJECT/DEVICES/VDKA/WORK"
         },
         "topic_VDKB":{
-            "sensor":"PROJECT/VDKB/SENSOR",
-            "led":"PROJECT/VDKB/LED",
-            "off":"PROJECT/VDKB/OFF",
-            "work":"PROJECT/VDKB/WORK"
+            "sensor":"PROJECT/DEVICES/VDKB/SENSOR",
+            "ledOn":"PROJECT/DEVICES/VDKB/LED/ON",
+            "ledOff":"PROJECT/DEVICES/VDKB/LED/OFF",
+            "off":"PROJECT/DEVICES/VDKB/OFF",
+            "work":"PROJECT/DEVICES/VDKB/WORK"
         },
         "topic_CONTROLLER_RESPONE":{
-            "VDKA":"PROJECT/CONTROLLER/VDKA/RESPONSE/+",
-            "VDKb":"PROJECT/CONTROLLER/VDKB/RESPONSE/+"
+            "vdkA":"PROJECT/CONTROLLER/VDKA/RESPONSE/+",
+            "vdkB":"PROJECT/CONTROLLER/VDKB/RESPONSE/+"
         },
-        "topic_emergency":{
-            "request":"PROJECT/EMERGENCE/REQUEST",
-            "response":"PROJECT/EMERGENCE/RESPONSE"
+        "topic_emergency":"PROJECT/EMERGENCE/#",
+        "topic_client":{
+            "vdkA":"PROJECT/CLIENT/VDKA",
+            "vdkB":"PROJECT/CLIENT/VDKB",
+            "webApp":"PROJECT/CLIENT/WEBAPP",
+            "mobiApp":"PROJECT/CLIENT/MOBIAPP",
+            "all":"PROJECT/CLIENT/+"
+        },
+        "topic_CONTROLLER_RESQUEST":{
+            "vdkA":"PROJECT/CONTROLLER/VDKA/REQUEST/+",
+            "vdkB":"PROJECT/CONTROLLER/VDKB/REQUEST/+",
+            "webApp":"PROJECT/CONTROLLER/WEBAPP/REQUEST/+",
+            "mobApp":"PROJECT/CONTROLLER/MOBIAPP/REQUEST/+",
+            "requestAll":"PROJECT/CONTROLLER/+/REQUEST/+"
         }
     },
     "mysql_config": {
@@ -44,5 +79,10 @@
         "database": "thesis",
         "user": "root",
         "password": "1234"
+    },
+    "code":{
+        "ERRSSDHT11OFF":"Can't get message from sensor humidity",
+        "ERRVKDAOFF":"VDKA disconnected",
+        "ERRVKDBOFF":"VDKB disconnected"
     }
 }

@@ -33,75 +33,86 @@
             <%- include ../public/commonhtml/nav.html %>
 
             <!--Kết thúc phần nav-->
-            <!--Bắt đầu systeminfor-->
-            <section id="systemInfor">
-                <table class="table table-bordered table-hover">
-                    <tr>
-                        <th class="tieude">Tình trạng kết nối</th>
-                        <th class="noidungSystem" id="statusConnectSystem">
-                            <%= connected?"Đã kết nối":"Chưa kết nối" %>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th class="tieude">Id của Client</th>
-                        <th class="noidungSystem">
-                            <%=clientID  %>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th class="tieude">Topic đang lắng nghe</th>
-                        <th class="noidungSystem">
-                            <%= topic %>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th class="tieude">Host</th>
-                        <th class="noidungSystem">
-                            <%= server %>
-                        </th>
-                    </tr>
-                </table>
 
-            </section>
-            <!--Kết thúc systeminfor-->
 
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="title">Vi điều khiển A <label id="statusVdkA" class="circle"></label></label> 
+                    <div class="content">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>CẢM BIẾN DHT11</th>
+                                    <th><label  id="statusVdkASensor" class="circle"></label></th>
+                                </tr>
+                                <tr>
+                                    <th>LED</th>
+                                    <th><label id="statusVdkALed" class="circle"></label></th>
+                                </tr>
+                                <tr>
+                                    <th>TIN NHẮN</th>
+                                    <th id="statusVdkAMsg"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <hr>
+                </div>
+
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="title">Vi điều khiển B <label id="statusVdkB" class="circle"></label></label> 
+                    <div class="content">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>CẢM BIẾN DHT11</th>
+                                    <th><label id="statusVdkBSensor" class="circle"></label></th>
+                                </tr>
+                                <tr>
+                                    <th>LED</th>
+                                    <th><label id="statusVdkBLed" class="circle"></label></th>
+                                </tr>
+                                <tr>
+                                    <th>TIN NHẮN</th>
+                                    <th id="statusVdkBMsg"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div  style="margin-left: 10px;width: 100%;text-align: center; font-size: 16px;font-weight: bold;margin-bottom: 2px"><span class="dateCurrent ">Time</span></div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                     <!--Bắt đầu cảm biến 1-->
                     <article class="sensor" id="sensor1">
-                        <label class="titleSensor">
-                            Cảm biến 1 <span id="statusSensor1" class="status_off">Off</span>
-                        </label>
-                        <hr>
-                        <label class="readSensor" style="margin-left: 10px;width: 200px">Ngày:<span class="dateCurrent "></span></label>
-                        <label class="readSensor" style="margin-left: 50px">Nhiệt độ: <span class="valueSensor" id="tempSensor1">NaN</span> °C</label>
-                        <label class="readSensor" style="margin-left: 20px">Độ ẩm: <span class="valueSensor" id="humiSensor1">NaN</span> %</label>
+                        <label class="readSensor" style="margin-left: 160px">Nhiệt độ: <span class="valueSensor" id="tempSensor1" style="color: #EC870E"></span>
+                            °C</label>
+                        <label class="readSensor" style="margin-left: 20px">Độ ẩm: <span class="valueSensor" id="humiSensor1" style="color: #205AA7"></span>
+                            %</label>
                         <div class="chart-container">
-                            <canvas id="line-chartcanvas1"></canvas>
+                            <canvas id="line-chartcanvasTemp1"></canvas>
+                            <canvas id="line-chartcanvasHumi1"></canvas>
                         </div>
                     </article>
                     <!--Kết thúc cảm biến 1-->
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                     <article class="sensor" id="sensor2">
-                        <label class="titleSensor">
-                            Cảm biến 2 <span id="statusSensor2" class="status_off">Off</span>
-                        </span>
-                        </label>     
-                        <hr>
-                        <label style="margin-left: 10p;width: 200px" >Ngày:<span class="dateCurrent"><span ></span></label>
-                        <label class="readSensor" style="margin-left: 50px">Nhiệt độ: <span class="valueSensor" id="tempSensor2">NaN</span> °C</label>
-                        <label class="readSensor"style="margin-left: 20px" >Độ ẩm: <span class="valueSensor" id="humiSensor2">NaN</span> %</label>
+                        <label class="readSensor" style="margin-left: 160px">Nhiệt độ: <span class="valueSensor" id="tempSensor2" style="color: #EC870E"></span>
+                            °C</label>
+                        <label class="readSensor" style="margin-left: 20px">Độ ẩm: <span class="valueSensor" id="humiSensor2" style="color: #205AA7"></span>
+                            %</label>
                         <div class="chart-container">
-                            <canvas id="line-chartcanvas2"></canvas>
+                            <canvas id="line-chartcanvasTemp2" ></canvas>
+                            
+                            <canvas id="line-chartcanvasHumi2"></canvas>
                         </div>
                     </article>
                     <!--Kết thúc cảm biến 2-->
                 </div>
             </div>
-
-
-            <hr>
             <!--Bắt đầu cảm biến 2-->
 
             <!--Bắt đầu cảm footer-->

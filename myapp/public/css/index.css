@@ -1,5 +1,4 @@
 footer {
-
     border-radius: 5px;
     margin-top: 50px;
     width: 100%;
@@ -15,4 +14,73 @@ span.footer1{
     padding-left: 25px;
     padding-right: 25px;
     font-size: 16px;
+}
+
+.content{
+    width: 100%;
+    height: auto;
+ 
+    border: solid 1px black;
+}
+/* sensor chung */
+
+
+label.title {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    font-size: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: blue;
+}
+
+article.sensor label.readSensor {
+    width: 130px;
+   
+}
+
+label {
+    font-size: 15px;
+}
+
+span.valueSensor {
+    height: 16px;
+    width: 60px;
+}
+
+div.chart-container {
+    width: 580px;
+    height: auto;
+    margin-bottom: 50px;
+}
+span.status_off{
+    padding: 5px;
+    border-radius: 5px;
+    text-transform: none;
+    background-color: red;
+    color: white;
+}
+span.status_on{
+    padding: 5px;
+    border-radius: 5px;
+    text-transform: none;
+    background-color: green;
+    color: white;
+}
+div.chart-container{
+    margin: 0 auto;
+    width: 100%;
+}
+
+.circle{
+    text-align: center;
+    margin: 0;
+    margin-left: 5px;
+    padding: 0;
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    background: gray;
 }

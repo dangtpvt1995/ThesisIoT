@@ -1,25 +1,21 @@
 span{
     font-size: 16px;
 }
+main{
+    padding: 0;
+    margin: 0;
+    height: 160vh;
+}
 div.sensorDetail{
+    box-sizing: border-box;
     font-size: 16px;
     margin-bottom: 50px;
-   
+    border: 2px solid blue;
+    padding: 10px;
 }
 div.sensorDetail label{
     width: 170px;
     
-}
-div#detailTempSensor{
-    width: 85%;
-    padding: 5px;
-    border: 1px solid black;
-}
-div#detailHumiSensor{
-    margin-left: 40px;
-    width: 85%;
-    padding: 5px;
-    border: 1px solid black;
 }
 div#sensorDetailInfor{
     margin: 0;
@@ -32,7 +28,7 @@ label.labelDetailSensor{
 }
 footer {
     border-radius: 5px;
-    width: 87.5%;
+    width: 78%;
     height: 50px;
     background-color: black;
     color: white;
@@ -42,8 +38,41 @@ footer {
 span.footer1{
     text-align: center;
     padding: 12px;
-    padding-left: 25px;
+    padding-left: 22px;
     padding-right: 25px;
     font-size: 16px;
+}
+#btnXacNhan{
+    width: 80px;
+    height: 35px;
+    background: white;
+    color: blue;
+    border:2px solid blue;
+    border-radius: 5px;
+}
+#btnXacNhan:hover{
+    background: blue;
+    color: white;
+}
+#getData{
+    margin-left: 30px;
+    width: 80px;
+    height: 35px;
+    background: white;
+    color: orange;
+    border:2px solid orange;
+    border-radius: 5px;
+}
+#getData:hover{
+    background: orange;
+    color: white;
+}
+tr{
+    text-align: center;
+}
+div.chart-container{
+    margin: 0 auto;
+    width: 100%;
+    height: 300px;
 }
 

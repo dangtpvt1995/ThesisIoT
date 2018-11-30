@@ -1,74 +1,122 @@
 
 $(document).ready(function () {
   let es = new EventSource('/stream');
-  let chart1 = drawChart("#line-chartcanvas1");
-  let chart2 = drawChart("#line-chartcanvas2");
+  let chartTemp1 = drawChart("#line-chartcanvasTemp1", "Nhiệt độ", 28, 35, "#EC870E", "#EC870E");
+  let chartHumi1 = drawChart("#line-chartcanvasHumi1", "Độ ẩm", 70, 80, "#205AA7", "#205AA7");
+  let chartTemp2 = drawChart("#line-chartcanvasTemp2", "Nhiệt độ", 28, 35, "#EC870E", "#EC870E");
+  let chartHumi2 = drawChart("#line-chartcanvasHumi2", "Độ ẩm", 70, 80, "#205AA7", "#205AA7");
+  setInterval(function () {
+    var date = getCurrentTime();
+    $('span.dateCurrent').text(date);
+  }, 1000);
   es.onerror = function (e) { console.error("Mất tín hiệu", e); };
   es.onopen = function (e) { console.log("Kế nối thành công", e); };
   es.onmessage = function (e) {
-    console.log(e.data);
-    let date = getCurrentTime();
-    $('span.dateCurrent').text(date);
-    let json = JSON.parse(e.data);
-    if (json.id == "cb1") {
-      if (json.status == 1) {
-        $("span#statusSensor1").text("On");
-        $("span#statusSensor1").css("background", "green");
-        let time = json.time;
-        let temp = json.temp;
-        let humi = json.humi;
+    var data = JSON.parse(e.data);
+    var content = data.content;
+    var id = e.lastEventId;
+    console.log(id);
+    console.log(data.status)
+    if (id === "vdkA") {
+      if (content === "dataSensor") {
+        $('#statusVdkASensor').css("background", "green");
+        let time = data.time;
+        let temp = data.temp;
+        let humi = data.humi;
         $("span#humiSensor1").text(humi);
         $("span#tempSensor1").text(temp);
-        addDataChart(chart1, temp, humi, time);
+        addDataChart(chartTemp1, temp, time);
+        addDataChart(chartHumi1, humi, time);
       }
-      else if (json.status == 0) {
-        $("span#statusSensor1").text("Off");
-        $("span#statusSensor1").css("background", "red");
-
-        console.log("Sensor 1 is offline");
+      if (content === "clientStatus") {
+        let status = Number(data.status);
+        if (status === 1) {
+          $('#statusVdkA').css("background", "green");
+        }
+        else {
+          $('#statusVdkA').css("background", "red");
+          $('#statusVdkASensor').css("background", "red");
+          $('#statusVdkALed').css("background", "red");
+        }
+      }
+      if (content === "err") {
+        var errCode = data.errCode;
+        if (errCode === "ERRSSDHT11OFF") {
+          $('#statusVdkASensor').css("background", "red");
+        }
+      }
+      if (content === "ledRes") {
+        let status = Number(data.status);
+        if (status === 1) {
+          $('#statusVdkALed').css("background", "green");
+        }
+        else {
+          $('#statusVdkALed').css("background", "red");
+        }
       }
     }
-    else if (json.id == "cb2") {
-      if (json.status == 1) {
-        $("span#statusSensor2").text("On");
-        $("span#statusSensor2").css("background", "green");
-        let time = json.time;
-        let temp = json.temp;
-        let humi = json.humi;
+    if (id === "vdkB") {
+      if (content === "dataSensor") {
+        $('#statusVdkBSensor').css("background", "green");
+        let time = data.time;
+        let temp = data.temp;
+        let humi = data.humi;
         $("span#humiSensor2").text(humi);
         $("span#tempSensor2").text(temp);
-        addDataChart(chart2, temp, humi, time);
+        addDataChart(chartTemp2, temp, time);
+        addDataChart(chartHumi2, humi, time);
       }
-      else if (json.status == 0) {
-        $("span#statusSensor2").text("Off");
-        $("span#statusSensor2").css("background", "red");
-        console.log("Sensor 2 is offline");
+      if (content == "clientStatus") {
+        let status = Number(data.status);
+        if (status === 1) {
+          $('#statusVdkB').css("background", "green");
+        }
+        else {
+          $('#statusVdkB').css("background", "red");
+          $('#statusVdkBSensor').css("background", "red");
+          $('#statusVdkBLed').css("background", "red");
+        }
+      }
+      if (content == "err") {
+        var errCode = data.errCode;
+        if (errCode === "ERRSSDHT11OFF") {
+          // $('#statusVdkBSensor').text("OFF");
+          $('#statusVdkBSensor').css("background", "red");
+        }
+      }
+      if (content == "ledRes") {
+        let status = Number(data.status);
+        if (status === 1) {
+          $('#statusVdkBLed').css("background", "green");
+        }
+        else {
+          $('#statusVdkBLed').css("background", "red");
+        }
       }
     }
 
   }
   //Vẽ biểu đồ 1
-  function drawChart(idChart) {
+  function drawChart(idChart, label, min, max, borderColor, titleColor) {
     let ctx = $(idChart);
     let options = {
       title: {
         display: true,
         position: "top",
-        text: "Biểu đồ nhiệt độ và độ ẩm",
+        text: label,
         fontSize: 18,
-        fontColor: "#111",
-        backgroundColor: "#ff6384",
+        fontColor: titleColor,
+        backgroundColor: "#00A06B",
       },
       legend: {
-        display: true,
+        display: false,
         position: "bottom"
       },
       scales: {
         yAxes: [{
           ticks: {
-            beginAtZero: true,
-            suggestedMin: 30,
-            suggestedMax: 50
+            suggestedMin: min,
+            suggestedMax: max
           }
         }]
       }
@@ -77,26 +125,15 @@ $(document).ready(function () {
       labels: [],
       datasets: [
         {
-          label: "Nhiệt độ",
+          label: label,
           lineTension: 0.1,
           data: [],
-          backgroundColor: "#DF0029",
-          borderColor: "#F5A89A",
+          backgroundColor: "#CAE5E8",
+          borderColor: borderColor,
           fill: false,
           pointRadius: 3,
 
-        },
-        {
-          label: "Độ ẩm",
-          lineTension: 0.1,
-          data: [],
-          backgroundColor: "blue",
-          borderColor: "lightblue",
-          fill: false,
-          pointRadius: 3
-        }
-
-      ]
+        }]
     };
     let lineChart = new Chart(ctx, {
       type: "line",
@@ -106,32 +143,32 @@ $(document).ready(function () {
     return lineChart;
   }
 
-  function addDataChart(lineChart, temp, humi, time) {
+  function addDataChart(lineChart, value, time) {
     let i = lineChart.data.datasets[0].data.length;
     lineChart.data.labels.push(time);
-    lineChart.data.datasets[0].data.push(temp);
-    lineChart.data.datasets[1].data.push(humi);
-    // dataLabel.push(label);
-    // dataHumi.push(humi);
-    // dataTemp.push(temp);
+    lineChart.data.datasets[0].data.push(value);
     if (i >= 10) {
       lineChart.data.labels.shift();
       lineChart.data.datasets[0].data.shift();
-      lineChart.data.datasets[1].data.shift();
     }
     lineChart.update();
   }
   function getCurrentTime() {
     var currentDate = new Date();
     var day = currentDate.getDate();
-    var month = currentDate.getMonth() + 1;
+    var month = (currentDate.getMonth() + 1) < 10 ? "0" + currentDate.getMonth() + 1 : currentDate.getMonth() + 1;
     var year = currentDate.getFullYear();
-    var hour = currentDate.getHours();
-    var min = currentDate.getMinutes();
-    var sec = currentDate.getSeconds();
+    var hour = currentDate.getHours() < 10 ? "0" + currentDate.getHours() : currentDate.getHours();
+    var min = currentDate.getMinutes() < 10 ? "0" + currentDate.getMinutes() : currentDate.getMinutes();
+    var sec = currentDate.getSeconds() < 10 ? "0" + currentDate.getSeconds() : currentDate.getSeconds();
     var date = day + "/" + month + "/" + year + " " + hour + ":" + min + ":" + sec;
     return date;
 
+  }
+  window.onload = function () {
+    $.get('http://localhost:8000/load', function () {
+      console.log("Đã reconect");
+    });
   }
 });
 
